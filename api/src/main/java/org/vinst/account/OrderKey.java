@@ -1,24 +1,24 @@
 package org.vinst.account;
 
 /**
- * <p>An account key</p>
+ * <p>An order key</p>
  *
  * todo
  *
  * @author lars-velsky
- * @since 31/07/14
+ * @since 03/08/14
  *
- * @see Account
+ * @see Order
  */
-public final class AccountKey {
-
-    public static AccountKey of(long id){
-        return new AccountKey(id);
-    }
+public final class OrderKey {
 
     private final long id;
 
-    private AccountKey(long id) {
+    public static OrderKey of(long id){
+        return new OrderKey(id);
+    }
+
+    private OrderKey(long id) {
         this.id = id;
     }
 
@@ -28,7 +28,7 @@ public final class AccountKey {
 
     @Override
     public String toString() {
-        return "AccountKey{" +
+        return "OrderKey{" +
                 "id=" + id +
                 '}';
     }

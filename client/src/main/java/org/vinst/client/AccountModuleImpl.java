@@ -8,7 +8,7 @@ import org.vinst.common.account.AccountImpl;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * @author ochtarfear
+ * @author lars-velsky
  * @since 31/07/14
  */
 public class AccountModuleImpl implements AccountModule {

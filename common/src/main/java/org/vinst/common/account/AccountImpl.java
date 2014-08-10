@@ -1,10 +1,13 @@
 package org.vinst.common.account;
 
-import org.vinst.account.Account;
-import org.vinst.account.AccountKey;
+import org.vinst.account.*;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.Optional;
 
 /**
- * @author ochtarfear
+ * @author lars-velsky
  * @since 31/07/14
  */
 public class AccountImpl implements Account {
@@ -19,6 +22,36 @@ public class AccountImpl implements Account {
     @Override
     public AccountKey getAccountKey() {
         return key;
+    }
+
+    @Override
+    public long getVersion() {
+        // todo
+        return 0;
+    }
+
+    @Override
+    public Map<OrderKey, Order> getOrders() {
+        // todo
+        return Collections.emptyMap();
+    }
+
+    @Override
+    public Optional<Order> getOrder(OrderKey orderKey) {
+        // todo
+        return Optional.empty();
+    }
+
+    @Override
+    public Map<PositionKey, Position> getPositions() {
+        // todo
+        return Collections.emptyMap();
+    }
+
+    @Override
+    public Optional<Position> getPosition(PositionKey positionKey) {
+        // todo
+        return Optional.empty();
     }
 
     @Override

@@ -5,7 +5,7 @@ import org.vinst.account.AccountKey;
 import org.vinst.common.account.AccountImpl;
 
 /**
- * @author ochtarfear
+ * @author lars-velsky
  * @since 31/07/14
  */
 public class Launcher {

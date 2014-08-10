@@ -3,9 +3,9 @@ package org.vinst.account;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Aggregates operation related to account
+ * <p>Aggregates operation related to account</p>
  *
- * @author ochtarfear
+ * @author lars-velsky
  * @since 31/07/14
  */
 public interface AccountModule {
