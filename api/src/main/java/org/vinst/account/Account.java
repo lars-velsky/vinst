@@ -1,5 +1,10 @@
 package org.vinst.account;
 
+import org.vinst.order.Order;
+import org.vinst.order.OrderKey;
+import org.vinst.position.Position;
+import org.vinst.position.PositionKey;
+
 import java.util.Map;
 import java.util.Optional;
 
@@ -13,8 +18,8 @@ import java.util.Optional;
  * @author lars-velsky
  * @since 31/07/14
  *
- * @see Order
- * @see Position
+ * @see org.vinst.order.Order
+ * @see org.vinst.position.Position
  */
 public interface Account {
 
@@ -38,7 +43,7 @@ public interface Account {
      *
      * @return orders
      *
-     * @see org.vinst.account.Order
+     * @see org.vinst.order.Order
      */
     Map<OrderKey, Order> getOrders();
 
@@ -62,7 +67,7 @@ public interface Account {
      *
      * @return positions
      *
-     * @see org.vinst.account.Position
+     * @see org.vinst.position.Position
      */
     Map<PositionKey, Position> getPositions();
 

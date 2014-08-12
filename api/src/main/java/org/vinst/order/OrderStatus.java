@@ -1,4 +1,4 @@
-package org.vinst.account;
+package org.vinst.order;
 
 /**
  * <p>Order status</p>

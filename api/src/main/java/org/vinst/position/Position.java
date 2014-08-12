@@ -1,4 +1,6 @@
-package org.vinst.account;
+package org.vinst.position;
+
+import org.vinst.instrument.InstrumentKey;
 
 /**
  * <p>A position</p>
