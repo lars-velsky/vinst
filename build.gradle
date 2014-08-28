@@ -1,5 +1,15 @@
 subprojects {
+
 	apply plugin: 'java'
 
     sourceCompatibility = 1.8
+
+}
+
+allprojects {
+
+    repositories {
+        mavenCentral()
+    }
+
 }

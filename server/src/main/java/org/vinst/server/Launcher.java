@@ -1,8 +1,6 @@
 package org.vinst.server;
 
-import org.vinst.account.Account;
-import org.vinst.account.AccountKey;
-import org.vinst.common.account.AccountImpl;
+import com.hazelcast.core.Hazelcast;
 
 /**
  * @author lars-velsky
@@ -11,11 +9,7 @@ import org.vinst.common.account.AccountImpl;
 public class Launcher {
 
     public static void main(String[] args) {
-        AccountKey accountKey = AccountKey.of(123l);
-
-        Account account = new AccountImpl(accountKey);
-
-        System.out.println("Account: " + account);
+        Hazelcast.newHazelcastInstance();
     }
 
 }
