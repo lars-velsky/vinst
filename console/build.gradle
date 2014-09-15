@@ -3,5 +3,7 @@ apply plugin: 'application'
 mainClassName = 'org.springframework.shell.Bootstrap'
 
 dependencies {
+    compile project(":client")
+    compile project(":api")
     compile 'org.springframework.shell:spring-shell:1.1.0.RELEASE'
 }

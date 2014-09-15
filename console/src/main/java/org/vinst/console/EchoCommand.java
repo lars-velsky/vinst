@@ -6,7 +6,7 @@ import org.springframework.shell.core.annotation.CliOption;
 import org.springframework.stereotype.Component;
 
 /**
- * Echo console command. Just echo argument. It is act as example of console command
+ * Echo console command. Just echoes the argument. It acts as an example of a console command
  *
  * @author Sergey Mischenko
  * @since 06.09.2014
