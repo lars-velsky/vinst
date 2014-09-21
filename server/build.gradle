@@ -1,5 +1,6 @@
 dependencies {
     compile project(":api")
     compile project(":common")
-    compile "com.hazelcast:hazelcast-all:3.2.5"
+    compile "com.hazelcast:hazelcast-all:3.3"
+    compile "org.springframework:spring-context:4.1.0.RELEASE"
 }

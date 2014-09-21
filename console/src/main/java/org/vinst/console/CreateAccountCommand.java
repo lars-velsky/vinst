@@ -1,6 +1,7 @@
 package org.vinst.console;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.shell.core.CommandMarker;
 import org.springframework.shell.core.annotation.CliCommand;
 import org.springframework.stereotype.Component;
 import org.vinst.core.Core;
@@ -20,12 +21,12 @@ import java.util.concurrent.ExecutionException;
  * @since 14/09/14
  */
 @Component
-public class CreateAccountCommand {
+public class CreateAccountCommand implements CommandMarker {
 
     @Autowired
     private Core core;
 
-    @CliCommand(value = "create account", help = "Creates new account")
+    @CliCommand(value = "ca", help = "Creates new account")
     public String createAccount() throws ExecutionException, InterruptedException {
         CompletableFuture<CreateAccountResponse> future = core.process(new CreateAccountRequest());
         CreateAccountResponse createAccountResponse = future.get();

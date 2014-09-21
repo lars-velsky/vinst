@@ -1,5 +1,7 @@
 package org.vinst.account;
 
+import java.io.Serializable;
+
 /**
  * <p>An account key</p>
  *
@@ -10,7 +12,7 @@ package org.vinst.account;
  *
  * @see Account
  */
-public final class AccountKey {
+public final class AccountKey implements Serializable {
 
     public static AccountKey of(long id){
         return new AccountKey(id);

@@ -15,9 +15,9 @@ import java.util.concurrent.Callable;
  * @author lars-velsky
  * @since 14/09/14
  */
-public class RequestTask<REQ extends CoreRequest<RESP>, RESP extends CoreResponse> implements Callable<RESP>, IdentifiedDataSerializable {
+public class RequestTask<REQ extends CoreRequest<RESP>, RESP extends CoreResponse> implements Callable<RESP> {
 
-    private final REQ request;
+    final REQ request;
 
     RequestTask(REQ request) {
         this.request = request;
@@ -28,23 +28,4 @@ public class RequestTask<REQ extends CoreRequest<RESP>, RESP extends CoreRespons
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public int getFactoryId() {
-        return Constants.REQUEST_TASK_FACTORY;
-    }
-
-    @Override
-    public int getId() {
-        return Constants.REQUEST_TASK_TYPE;
-    }
-
-    @Override
-    public void writeData(ObjectDataOutput out) throws IOException {
-        out.writeObject(request);
-    }
-
-    @Override
-    public void readData(ObjectDataInput in) throws IOException {
-        throw new UnsupportedOperationException();
-    }
 }

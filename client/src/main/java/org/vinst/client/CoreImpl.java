@@ -1,11 +1,10 @@
 package org.vinst.client;
 
-import com.hazelcast.client.HazelcastClient;
-import com.hazelcast.config.ClasspathXmlConfig;
 import com.hazelcast.core.ExecutionCallback;
+import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IExecutorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.vinst.common.Constants;
 import org.vinst.core.Core;
@@ -22,12 +21,8 @@ import java.util.concurrent.CompletableFuture;
 public class CoreImpl implements Core {
 
     @Autowired
-    private HazelcastClient hzClient;
-
-    public static void main(String[] args) {
-        // todo
-        System.out.println("loaded");
-    }
+    @Qualifier("client")
+    private HazelcastInstance hzClient;
 
     @Override
     public <REQ extends CoreRequest<RESP>, RESP extends CoreResponse> CompletableFuture<RESP> process(REQ request) {
