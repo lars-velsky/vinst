@@ -10,9 +10,7 @@ import java.util.List;
  */
 public interface AccountUpdate {
 
-    AccountKey getAccountKey();
-
-    long getVersion();
+    AccountUpdateKey getAccountUpdateKey();
 
     List<Event> getEvents();
 }
