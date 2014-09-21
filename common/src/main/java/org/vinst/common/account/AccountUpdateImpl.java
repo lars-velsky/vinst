@@ -2,6 +2,7 @@ package org.vinst.common.account;
 
 import org.vinst.account.AccountUpdate;
 import org.vinst.account.AccountUpdateKey;
+import org.vinst.event.AccountEvent;
 import org.vinst.event.Event;
 
 import java.io.Serializable;
@@ -14,9 +15,9 @@ import java.util.List;
 public final class AccountUpdateImpl implements AccountUpdate, Serializable {
 
     private final AccountUpdateKey accountKey;
-    private final List<Event> events;
+    private final List<AccountEvent> events;
 
-    public AccountUpdateImpl(AccountUpdateKey accountKey, List<Event> events) {
+    public AccountUpdateImpl(AccountUpdateKey accountKey, List<AccountEvent> events) {
         this.accountKey = accountKey;
         this.events = events;
     }
@@ -27,7 +28,7 @@ public final class AccountUpdateImpl implements AccountUpdate, Serializable {
     }
 
     @Override
-    public List<Event> getEvents() {
+    public List<AccountEvent> getEvents() {
         return events;
     }
 }

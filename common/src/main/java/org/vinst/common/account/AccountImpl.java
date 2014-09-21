@@ -18,9 +18,11 @@ public class AccountImpl implements Account {
 
 
     private final AccountKey key;
+    private final long version;
 
-    public AccountImpl(AccountKey key) {
+    public AccountImpl(AccountKey key, long version) {
         this.key = key;
+        this.version = version;
     }
 
     @Override
@@ -30,8 +32,7 @@ public class AccountImpl implements Account {
 
     @Override
     public long getVersion() {
-        // todo
-        return 0;
+        return version;
     }
 
     @Override

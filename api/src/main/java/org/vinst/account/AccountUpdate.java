@@ -1,5 +1,6 @@
 package org.vinst.account;
 
+import org.vinst.event.AccountEvent;
 import org.vinst.event.Event;
 
 import java.util.List;
@@ -12,5 +13,5 @@ public interface AccountUpdate {
 
     AccountUpdateKey getAccountUpdateKey();
 
-    List<Event> getEvents();
+    List<AccountEvent> getEvents();
 }

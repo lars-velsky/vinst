@@ -2,6 +2,7 @@ package org.vinst.common.account;
 
 import org.vinst.account.AccountKey;
 import org.vinst.event.AccountCreationEvent;
+import org.vinst.event.Event;
 
 import java.io.Serializable;
 
@@ -20,5 +21,10 @@ public class AccountCreationEventImpl implements AccountCreationEvent, Serializa
     @Override
     public AccountKey getAccountKey() {
         return accountKey;
+    }
+
+    @Override
+    public void visit(Visitor visitor) {
+        visitor.visitAccountCreation(this);
     }
 }

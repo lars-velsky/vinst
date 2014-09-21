@@ -5,4 +5,12 @@ package org.vinst.event;
  * @since 12/08/14
  */
 public interface Event {
+
+    void visit(Visitor visitor);
+
+    interface Visitor {
+
+        void visitAccountCreation(AccountCreationEvent event);
+    }
+
 }
