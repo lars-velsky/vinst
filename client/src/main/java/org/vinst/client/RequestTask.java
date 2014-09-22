@@ -1,14 +1,8 @@
 package org.vinst.client;
 
-import com.hazelcast.nio.ObjectDataInput;
-import com.hazelcast.nio.ObjectDataOutput;
-import com.hazelcast.nio.serialization.IdentifiedDataSerializable;
-import org.vinst.common.Constants;
 import org.vinst.core.requests.CoreRequest;
 import org.vinst.core.requests.CoreResponse;
 
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.concurrent.Callable;
 
 /**
@@ -19,7 +13,7 @@ public class RequestTask<REQ extends CoreRequest<RESP>, RESP extends CoreRespons
 
     final REQ request;
 
-    RequestTask(REQ request) {
+    public RequestTask(REQ request) {
         this.request = request;
     }
 
