@@ -1,10 +1,10 @@
-package org.vinst.client.processors;
+package org.vinst.client.request.processors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.vinst.account.AccountKey;
 import org.vinst.client.AccountCache;
-import org.vinst.client.RequestProcessor;
+import org.vinst.client.request.RequestProcessor;
 import org.vinst.core.requests.GetAccountKeysRequest;
 import org.vinst.core.requests.GetAccountKeysResponse;
 

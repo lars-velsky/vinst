@@ -1,11 +1,11 @@
-package org.vinst.client.processors;
+package org.vinst.client.request.processors;
 
 import com.hazelcast.core.ExecutionCallback;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IExecutorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.vinst.client.RequestProcessor;
-import org.vinst.client.RequestTask;
+import org.vinst.client.request.RequestProcessor;
+import org.vinst.client.request.RequestTask;
 import org.vinst.common.Constants;
 import org.vinst.core.requests.CreateAccountRequest;
 import org.vinst.core.requests.CreateAccountResponse;

@@ -1,7 +1,8 @@
-package org.vinst.client;
+package org.vinst.client.request;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.vinst.client.request.RequestProcessor;
 import org.vinst.core.requests.CoreRequest;
 import org.vinst.core.requests.CoreResponse;
 

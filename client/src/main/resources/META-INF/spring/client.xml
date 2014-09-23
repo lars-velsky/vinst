@@ -20,7 +20,7 @@
                     smart-routing="true" />
         <hz:serialization>
             <hz:serializers>
-                <hz:serializer type-class="org.vinst.client.RequestTask" implementation="requestTaskSerializer"/>
+                <hz:serializer type-class="org.vinst.client.request.RequestTask" implementation="requestTaskSerializer"/>
             </hz:serializers>
         </hz:serialization>
     </hz:client>

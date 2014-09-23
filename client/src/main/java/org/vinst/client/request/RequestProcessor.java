@@ -1,4 +1,4 @@
-package org.vinst.client;
+package org.vinst.client.request;
 
 import org.vinst.core.requests.CoreRequest;
 import org.vinst.core.requests.CoreResponse;

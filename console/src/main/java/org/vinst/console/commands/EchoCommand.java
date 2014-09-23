@@ -1,4 +1,4 @@
-package org.vinst.console;
+package org.vinst.console.commands;
 
 import org.springframework.shell.core.CommandMarker;
 import org.springframework.shell.core.annotation.CliCommand;

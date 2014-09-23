@@ -1,4 +1,4 @@
-package org.vinst.console;
+package org.vinst.console.commands;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.core.CommandMarker;

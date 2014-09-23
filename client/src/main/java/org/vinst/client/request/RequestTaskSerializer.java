@@ -1,4 +1,4 @@
-package org.vinst.client;
+package org.vinst.client.request;
 
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
