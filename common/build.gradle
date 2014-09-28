@@ -1,3 +1,4 @@
 dependencies {
     compile project(":api")
+    compile 'org.springframework.data:spring-data-jpa:1.7.0.RELEASE'
 }

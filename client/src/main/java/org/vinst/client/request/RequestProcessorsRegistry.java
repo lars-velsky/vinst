@@ -34,7 +34,7 @@ public class RequestProcessorsRegistry {
     }
 
     public <REQ extends CoreRequest<RESP>, RESP extends CoreResponse> RequestProcessor<REQ, RESP> getRequestProcessor(REQ req){
-        RequestProcessor<?, ?> requestProcessor = processorsMap.get(req);
+        RequestProcessor<?, ?> requestProcessor = processorsMap.get(req.getClass());
         return (RequestProcessor<REQ, RESP>) requestProcessor;
     }
 

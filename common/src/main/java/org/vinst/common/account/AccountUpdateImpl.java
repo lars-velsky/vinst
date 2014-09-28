@@ -1,9 +1,9 @@
 package org.vinst.common.account;
 
+import org.springframework.data.annotation.Id;
 import org.vinst.account.AccountUpdate;
 import org.vinst.account.AccountUpdateKey;
 import org.vinst.event.AccountEvent;
-import org.vinst.event.Event;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,6 +14,7 @@ import java.util.List;
  */
 public final class AccountUpdateImpl implements AccountUpdate, Serializable {
 
+    @Id
     private final AccountUpdateKey accountKey;
     private final List<AccountEvent> events;
 

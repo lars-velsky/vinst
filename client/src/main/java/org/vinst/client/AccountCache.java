@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.vinst.account.Account;
 import org.vinst.account.AccountKey;
-import org.vinst.account.AccountUpdate;
 import org.vinst.account.AccountUpdateKey;
 import org.vinst.common.Constants;
+import org.vinst.common.account.AccountUpdateImpl;
 import org.vinst.event.AccountEvent;
 
 import javax.annotation.PostConstruct;
@@ -31,11 +31,27 @@ public class AccountCache {
 
     @PostConstruct
     public void init(){
-        IMap<AccountUpdateKey, AccountUpdate> map = hzInstance.getMap(Constants.ACCOUNT_UPDATES);
+        IMap<AccountUpdateKey, AccountUpdateImpl> map = hzInstance.getMap(Constants.ACCOUNT_UPDATES);
 
-        map.addEntryListener(new EntryListener<AccountUpdateKey, AccountUpdate>() {
+        //todo synchronize it and move to start method of lifecycle
+        Collection<AccountUpdateImpl> values = map.values();
+        for (AccountUpdateImpl value : values) {
+            executor.submit(() -> {
+                List<AccountEvent> events = value.getEvents();
+                for (AccountEvent accountEvent : events) {
+                    AccountKey accountKey = accountEvent.getAccountKey();
+                    if (!builders.containsKey(accountKey)){
+                        builders.put(accountKey, new AccountBuilder(accountKey));
+                    }
+                    AccountBuilder builder = builders.get(accountKey);
+                    accountEvent.visit(builder);
+                }
+            });
+        }
+
+        map.addEntryListener(new EntryListener<AccountUpdateKey, AccountUpdateImpl>() {
             @Override
-            public void entryAdded(EntryEvent<AccountUpdateKey, AccountUpdate> event) {
+            public void entryAdded(EntryEvent<AccountUpdateKey, AccountUpdateImpl> event) {
                 executor.submit(() -> {
                     List<AccountEvent> events = event.getValue().getEvents();
                     for (AccountEvent accountEvent : events) {
@@ -50,17 +66,17 @@ public class AccountCache {
             }
 
             @Override
-            public void entryRemoved(EntryEvent<AccountUpdateKey, AccountUpdate> event) {
+            public void entryRemoved(EntryEvent<AccountUpdateKey, AccountUpdateImpl> event) {
                 throw new IllegalStateException("Account updates should never be removed");
             }
 
             @Override
-            public void entryUpdated(EntryEvent<AccountUpdateKey, AccountUpdate> event) {
+            public void entryUpdated(EntryEvent<AccountUpdateKey, AccountUpdateImpl> event) {
                 throw new IllegalStateException("Account updates should never be updated");
             }
 
             @Override
-            public void entryEvicted(EntryEvent<AccountUpdateKey, AccountUpdate> event) {
+            public void entryEvicted(EntryEvent<AccountUpdateKey, AccountUpdateImpl> event) {
 
             }
 

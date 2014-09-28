@@ -42,7 +42,7 @@ public class RequestsProcessor {
         AccountCreationEventImpl accountCreationEvent = new AccountCreationEventImpl(accountKey);
         AccountUpdateKey accountUpdateKey = AccountUpdateKey.of(accountKey, 0);
         AccountUpdateImpl accountUpdate = new AccountUpdateImpl(accountUpdateKey, Collections.singletonList(accountCreationEvent));
-        IMap<Object, Object> map = hzInstance.getMap(Constants.ACCOUNT_UPDATES);
+        IMap<AccountUpdateKey, AccountUpdateImpl> map = hzInstance.getMap(Constants.ACCOUNT_UPDATES);
         map.put(accountUpdateKey, accountUpdate);
         System.out.println("Account " + id + " created");
         return new CreateAccountResponse(accountKey);

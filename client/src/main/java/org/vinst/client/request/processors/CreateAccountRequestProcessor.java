@@ -4,6 +4,7 @@ import com.hazelcast.core.ExecutionCallback;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IExecutorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.vinst.client.request.RequestProcessor;
 import org.vinst.client.request.RequestTask;
 import org.vinst.common.Constants;
@@ -16,6 +17,7 @@ import java.util.concurrent.CompletableFuture;
  * @author Lars Velsky
  * @since 22/09/14
  */
+@Component
 public class CreateAccountRequestProcessor implements RequestProcessor<CreateAccountRequest, CreateAccountResponse> {
 
     @Autowired
