@@ -1,6 +1,7 @@
 package org.vinst.server.request;
 
 import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.core.ILock;
 import com.hazelcast.core.IMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,14 +38,21 @@ public class RequestsProcessor {
     }
 
     private CreateAccountResponse createAccount() {
-        final long id = rnd.nextLong();
-        AccountKey accountKey = AccountKey.of(id);
-        AccountCreationEventImpl accountCreationEvent = new AccountCreationEventImpl(accountKey);
-        AccountUpdateKey accountUpdateKey = AccountUpdateKey.of(accountKey, 0);
-        AccountUpdateImpl accountUpdate = new AccountUpdateImpl(accountUpdateKey, Collections.singletonList(accountCreationEvent));
-        IMap<AccountUpdateKey, AccountUpdateImpl> map = hzInstance.getMap(Constants.ACCOUNT_UPDATES);
-        map.put(accountUpdateKey, accountUpdate);
-        System.out.println("Account " + id + " created");
+        AccountKey accountKey;
+        ILock lock = hzInstance.getLock(Constants.LOCK);
+        lock.lock();
+        try {
+            final long id = rnd.nextLong();
+            accountKey = AccountKey.of(id);
+            AccountCreationEventImpl accountCreationEvent = new AccountCreationEventImpl(accountKey);
+            AccountUpdateKey accountUpdateKey = AccountUpdateKey.of(accountKey, 0);
+            AccountUpdateImpl accountUpdate = new AccountUpdateImpl(accountUpdateKey, Collections.singletonList(accountCreationEvent));
+            IMap<AccountUpdateKey, AccountUpdateImpl> map = hzInstance.getMap(Constants.ACCOUNT_UPDATES);
+            map.put(accountUpdateKey, accountUpdate);
+            System.out.println("Account " + id + " created");
+        } finally {
+            lock.unlock();
+        }
         return new CreateAccountResponse(accountKey);
     }
 }

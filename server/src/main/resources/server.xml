@@ -19,7 +19,7 @@
     <hz:hazelcast id="instance">
         <hz:config>
             <hz:group name="grid" password="greed"/>
-            <hz:map name="account-updates">
+            <hz:map name="account-updates" in-memory-format="OBJECT">
                 <hz:map-store enabled="true" write-delay-seconds="0"
                               implementation="accountUpdatesMapStore" />
             </hz:map>
