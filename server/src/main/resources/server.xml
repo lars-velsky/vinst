@@ -19,9 +19,9 @@
     <hz:hazelcast id="instance">
         <hz:config>
             <hz:group name="grid" password="greed"/>
-            <hz:map name="account-updates" in-memory-format="OBJECT">
+            <hz:map name="account-updates" in-memory-format="OBJECT" >
                 <hz:map-store enabled="true" write-delay-seconds="0"
-                              implementation="accountUpdatesMapStore" />
+                              implementation="mongoAccountUpdatesMapStore" initial-mode="EAGER" />
             </hz:map>
             <hz:serialization>
                 <hz:serializers>
@@ -33,9 +33,7 @@
     </hz:hazelcast>
 
     <!-- Mongo -->
-    <mongo:db-factory dbname="neat" />
-
-    <mongo:repositories base-package="org.vinst.server.mongo" />
+    <mongo:db-factory dbname="neat" write-concern="JOURNALED" />
 
     <mongo:mapping-converter>
         <mongo:custom-converters>

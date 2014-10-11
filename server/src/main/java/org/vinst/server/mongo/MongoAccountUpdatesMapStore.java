@@ -1,13 +1,14 @@
-package org.vinst.server;
+package org.vinst.server.mongo;
 
 import com.hazelcast.core.MapStore;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Service;
 import org.vinst.account.AccountUpdateKey;
 import org.vinst.common.account.AccountUpdateImpl;
-import org.vinst.server.mongo.AccountUpdateRepository;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -15,19 +16,19 @@ import java.util.stream.Collectors;
  * @since 25/09/14
  */
 @Service
-public class AccountUpdatesMapStore implements MapStore<AccountUpdateKey, AccountUpdateImpl> {
+public class MongoAccountUpdatesMapStore implements MapStore<AccountUpdateKey, AccountUpdateImpl> {
 
     @Autowired
-    private AccountUpdateRepository repository;
+    private MongoOperations mongoOp;
 
     @Override
     public void store(AccountUpdateKey key, AccountUpdateImpl value) {
-        repository.save(value);
+        mongoOp.insert(value);
     }
 
     @Override
     public void storeAll(Map<AccountUpdateKey, AccountUpdateImpl> map) {
-        repository.save(map.values());
+        throw new UnsupportedOperationException("Account updates are never saved in batch.");
     }
 
     @Override
@@ -42,21 +43,24 @@ public class AccountUpdatesMapStore implements MapStore<AccountUpdateKey, Accoun
 
     @Override
     public AccountUpdateImpl load(AccountUpdateKey key) {
-        return repository.findOne(key);
+        return mongoOp.findById(key, AccountUpdateImpl.class);
     }
 
     @Override
     public Map<AccountUpdateKey, AccountUpdateImpl> loadAll(Collection<AccountUpdateKey> keys) {
-        HashMap<AccountUpdateKey, AccountUpdateImpl> data = new HashMap<>();
-        Iterable<AccountUpdateImpl> all = repository.findAll(keys);
-        all.forEach(a -> data.put(a.getAccountUpdateKey(), a));
-        return data;
+        // todo can this be optimized?
+        return keys.stream()
+                .map(this::load)
+                .collect(Collectors.toMap(
+                                AccountUpdateImpl::getAccountUpdateKey,
+                                Function.<AccountUpdateImpl>identity()));
     }
 
     @Override
     public Set<AccountUpdateKey> loadAllKeys() {
         // todo can this be optimized?
-        List<AccountUpdateImpl> all = repository.findAll();
-        return all.stream().map(AccountUpdateImpl::getAccountUpdateKey).collect(Collectors.toSet());
+        return mongoOp.findAll(AccountUpdateImpl.class).stream()
+                .map(AccountUpdateImpl::getAccountUpdateKey)
+                .collect(Collectors.toSet());
     }
 }

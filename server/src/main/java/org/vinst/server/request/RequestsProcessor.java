@@ -1,19 +1,16 @@
 package org.vinst.server.request;
 
-import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.core.ILock;
-import com.hazelcast.core.IMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.vinst.account.AccountKey;
 import org.vinst.account.AccountUpdateKey;
-import org.vinst.common.Constants;
 import org.vinst.common.account.AccountCreationEventImpl;
 import org.vinst.common.account.AccountUpdateImpl;
 import org.vinst.core.requests.CoreRequest;
 import org.vinst.core.requests.CoreResponse;
 import org.vinst.core.requests.CreateAccountRequest;
 import org.vinst.core.requests.CreateAccountResponse;
+import org.vinst.server.dao.AccountUpdateDAO;
 
 import java.util.Collections;
 import java.util.Random;
@@ -28,7 +25,7 @@ public class RequestsProcessor {
     private static final Random rnd = new Random();
 
     @Autowired
-    private HazelcastInstance hzInstance;
+    private AccountUpdateDAO accountUpdateDAO;
 
     public CoreResponse process(CoreRequest request){
         if (request instanceof CreateAccountRequest){
@@ -38,21 +35,17 @@ public class RequestsProcessor {
     }
 
     private CreateAccountResponse createAccount() {
-        AccountKey accountKey;
-        ILock lock = hzInstance.getLock(Constants.LOCK);
-        lock.lock();
-        try {
-            final long id = rnd.nextLong();
-            accountKey = AccountKey.of(id);
-            AccountCreationEventImpl accountCreationEvent = new AccountCreationEventImpl(accountKey);
-            AccountUpdateKey accountUpdateKey = AccountUpdateKey.of(accountKey, 0);
-            AccountUpdateImpl accountUpdate = new AccountUpdateImpl(accountUpdateKey, Collections.singletonList(accountCreationEvent));
-            IMap<AccountUpdateKey, AccountUpdateImpl> map = hzInstance.getMap(Constants.ACCOUNT_UPDATES);
-            map.put(accountUpdateKey, accountUpdate);
-            System.out.println("Account " + id + " created");
-        } finally {
-            lock.unlock();
-        }
+        // we do not lock anything yet - we take an optimistic approach:
+        // because account update key consist of an account key AND version
+        // mongo won't let us insert an invalid account update
+        // for now just throw an exception
+        final long id = rnd.nextLong();
+        AccountKey accountKey = AccountKey.of(id);
+        AccountCreationEventImpl accountCreationEvent = new AccountCreationEventImpl(accountKey);
+        AccountUpdateKey accountUpdateKey = AccountUpdateKey.of(accountKey, 0);
+        AccountUpdateImpl accountUpdate = new AccountUpdateImpl(accountUpdateKey, Collections.singletonList(accountCreationEvent));
+        accountUpdateDAO.saveAccountUpdate(accountUpdate);
+        System.out.println("Account " + id + " created");
         return new CreateAccountResponse(accountKey);
     }
 }
