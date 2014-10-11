@@ -6,10 +6,7 @@ import org.vinst.account.AccountKey;
 import org.vinst.account.AccountUpdateKey;
 import org.vinst.common.account.AccountCreationEventImpl;
 import org.vinst.common.account.AccountUpdateImpl;
-import org.vinst.core.requests.CoreRequest;
-import org.vinst.core.requests.CoreResponse;
-import org.vinst.core.requests.CreateAccountRequest;
-import org.vinst.core.requests.CreateAccountResponse;
+import org.vinst.core.requests.*;
 import org.vinst.server.dao.AccountUpdateDAO;
 
 import java.util.Collections;
@@ -28,10 +25,17 @@ public class RequestsProcessor {
     private AccountUpdateDAO accountUpdateDAO;
 
     public CoreResponse process(CoreRequest request){
+        // todo introduce processors registry
         if (request instanceof CreateAccountRequest){
             return createAccount();
+        } else if (request instanceof GetAccountKeysRequest){
+            return getAccountKeys();
         }
         throw new UnsupportedOperationException(request.getClass().getSimpleName() + " requests aren't supported");
+    }
+
+    private GetAccountKeysResponse getAccountKeys() {
+        return new GetAccountKeysResponse(accountUpdateDAO.getAccountKeys());
     }
 
     private CreateAccountResponse createAccount() {

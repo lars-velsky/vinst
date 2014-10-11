@@ -9,7 +9,7 @@ import java.util.Set;
  * @author Lars Velsky
  * @since 21/09/14
  */
-public class GetAccountKeysResponse implements CoreResponse, Serializable {
+public final class GetAccountKeysResponse implements CoreResponse, Serializable {
 
     private final Set<AccountKey> accountKeys;
 

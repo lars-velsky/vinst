@@ -1,14 +1,16 @@
 package org.vinst.client.request.processors;
 
+import com.hazelcast.core.ExecutionCallback;
+import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.core.IExecutorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.vinst.account.AccountKey;
-import org.vinst.client.AccountCache;
 import org.vinst.client.request.RequestProcessor;
+import org.vinst.client.request.RequestTask;
+import org.vinst.common.Constants;
 import org.vinst.core.requests.GetAccountKeysRequest;
 import org.vinst.core.requests.GetAccountKeysResponse;
 
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -19,7 +21,7 @@ import java.util.concurrent.CompletableFuture;
 public class GetAccountKeysRequestProcessor implements RequestProcessor<GetAccountKeysRequest, GetAccountKeysResponse> {
 
     @Autowired
-    private AccountCache accountCache;
+    private HazelcastInstance hzClient;
 
     @Override
     public Class<GetAccountKeysRequest> getRequestClass() {
@@ -29,9 +31,19 @@ public class GetAccountKeysRequestProcessor implements RequestProcessor<GetAccou
     @Override
     public CompletableFuture<GetAccountKeysResponse> processRequest(GetAccountKeysRequest request) {
         CompletableFuture<GetAccountKeysResponse> future = new CompletableFuture<>();
-        Set<AccountKey> accountKeys = accountCache.getAccountKeys();
-        GetAccountKeysResponse getAccountKeysResponse = new GetAccountKeysResponse(accountKeys);
-        future.complete(getAccountKeysResponse);
+        IExecutorService executorService = hzClient.getExecutorService(Constants.REQUESTS_EXECUTOR);
+        RequestTask<GetAccountKeysRequest, GetAccountKeysResponse> task = new RequestTask<>(request);
+        executorService.submit(task, new ExecutionCallback<GetAccountKeysResponse>() {
+            @Override
+            public void onResponse(GetAccountKeysResponse response) {
+                future.complete(response);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                future.completeExceptionally(t);
+            }
+        });
         return future;
     }
 }
