@@ -54,4 +54,12 @@ public final class AccountUpdateKey implements Serializable {
         result = 31 * result + (int) (version ^ (version >>> 32));
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "AccountUpdateKey{" +
+                "accountKey=" + accountKey +
+                ", version=" + version +
+                '}';
+    }
 }

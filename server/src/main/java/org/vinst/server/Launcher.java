@@ -14,7 +14,7 @@ public class Launcher {
 
     public static void main(String[] args) {
         new ClassPathXmlApplicationContext("server.xml");
-        log.info("Context created");
+        log.info("Context started");
     }
 
 }

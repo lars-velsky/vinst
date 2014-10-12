@@ -46,8 +46,9 @@ public class RequestsProcessor {
     private CreateAccountResponse createAccount() {
         // we do not lock anything yet - we take an optimistic approach:
         // because account update key consist of an account key AND version
-        // mongo won't let us insert an invalid account update
-        // for now just throw an exception
+        // accountUpdateDAO shouldn't let us insert an already present
+        // account update
+        // for now just let it throw an exception
         final long id = rnd.nextLong();
         AccountKey accountKey = AccountKey.of(id);
         AccountCreationEventImpl accountCreationEvent = new AccountCreationEventImpl(accountKey);
