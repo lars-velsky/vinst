@@ -2,6 +2,8 @@ package org.vinst.server.dao;
 
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.vinst.account.AccountKey;
@@ -22,6 +24,8 @@ import java.util.stream.Collectors;
 @Service
 public class AccountUpdateDAO {
 
+    private static final Logger log = LoggerFactory.getLogger(AccountUpdateDAO.class);
+
     @Autowired
     private HazelcastInstance hz;
 
@@ -37,11 +41,13 @@ public class AccountUpdateDAO {
     }
 
     public void saveAccountUpdate(AccountUpdateImpl accountUpdate){
+        log.debug("Saving account update {}", accountUpdate);
         getMap().put(accountUpdate.getAccountUpdateKey(), accountUpdate);
     }
 
     public Set<AccountKey> getAccountKeys() {
         // todo this should be done via account cache or accounts map
+        log.debug("Collecting created account keys");
         return getMap().values().stream()
                 .flatMap(au -> au.getEvents().stream())
                 .filter(e -> e.getClass().equals(AccountCreationEventImpl.class))

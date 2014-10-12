@@ -1,5 +1,7 @@
 package org.vinst.server.request;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.vinst.account.AccountKey;
@@ -19,6 +21,8 @@ import java.util.Random;
 @Service
 public class RequestsProcessor {
 
+    private static Logger log = LoggerFactory.getLogger(RequestsProcessor.class);
+
     private static final Random rnd = new Random();
 
     @Autowired
@@ -26,6 +30,7 @@ public class RequestsProcessor {
 
     public CoreResponse process(CoreRequest request){
         // todo introduce processors registry
+        log.debug("Processing request {}", request.getClass().getSimpleName());
         if (request instanceof CreateAccountRequest){
             return createAccount();
         } else if (request instanceof GetAccountKeysRequest){
@@ -49,7 +54,7 @@ public class RequestsProcessor {
         AccountUpdateKey accountUpdateKey = AccountUpdateKey.of(accountKey, 0);
         AccountUpdateImpl accountUpdate = new AccountUpdateImpl(accountUpdateKey, Collections.singletonList(accountCreationEvent));
         accountUpdateDAO.saveAccountUpdate(accountUpdate);
-        System.out.println("Account " + id + " created");
+        log.info("Account with id {} created", id);
         return new CreateAccountResponse(accountKey);
     }
 }

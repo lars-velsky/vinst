@@ -23,6 +23,7 @@ public class MongoAccountUpdatesMapStore implements MapStore<AccountUpdateKey, A
 
     @Override
     public void store(AccountUpdateKey key, AccountUpdateImpl value) {
+
         mongoOp.insert(value);
     }
 

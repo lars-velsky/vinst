@@ -19,6 +19,9 @@
     <hz:hazelcast id="instance">
         <hz:config>
             <hz:group name="grid" password="greed"/>
+            <hz:properties>
+                <hz:property name="hazelcast.logging.type">slf4j</hz:property>
+            </hz:properties>
             <hz:map name="account-updates" in-memory-format="OBJECT" >
                 <hz:map-store enabled="true" write-delay-seconds="0"
                               implementation="mongoAccountUpdatesMapStore" initial-mode="EAGER" />
