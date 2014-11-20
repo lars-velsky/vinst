@@ -6,21 +6,26 @@ import org.vinst.core.requests.CoreResponse;
 import java.util.concurrent.Callable;
 
 /**
- * @author lars-velsky
+ * @author Lars Velsky
  * @since 15/09/14
  */
 public class ServerRequestTask implements Callable<CoreResponse> {
 
-    private RequestsProcessor requestsProcessor;
-    CoreRequest request;
+    private final RequestProcessorsRegistry requestProcessorsRegistry;
+    private final CoreRequest request;
 
-    public ServerRequestTask(RequestsProcessor requestsProcessor, CoreRequest coreRequest) {
-        this.requestsProcessor = requestsProcessor;
+    public ServerRequestTask(RequestProcessorsRegistry requestProcessorsRegistry, CoreRequest coreRequest) {
+        this.requestProcessorsRegistry = requestProcessorsRegistry;
         this.request = coreRequest;
     }
 
     @Override
     public CoreResponse call() throws Exception {
-        return requestsProcessor.process(request);
+        return requestProcessorsRegistry.getRequestProcessor(request).processRequest(request);
     }
+
+    public CoreRequest getRequest() {
+        return request;
+    }
+
 }

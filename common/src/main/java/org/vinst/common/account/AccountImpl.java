@@ -6,23 +6,27 @@ import org.vinst.order.OrderKey;
 import org.vinst.position.Position;
 import org.vinst.position.PositionKey;
 
+import java.io.Serializable;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 /**
- * @author lars-velsky
+ * @author Lars Velsky
  * @since 31/07/14
  */
-public class AccountImpl implements Account {
+public class AccountImpl implements Account, Serializable {
 
 
     private final AccountKey key;
     private final long version;
+    private Map<PositionKey, Position> positions;
 
-    public AccountImpl(AccountKey key, long version) {
+    public AccountImpl(AccountKey key, long version, Map<PositionKey, Position> positions) {
         this.key = key;
         this.version = version;
+        this.positions = Collections.unmodifiableMap(new HashMap<>(positions));
     }
 
     @Override
@@ -49,14 +53,12 @@ public class AccountImpl implements Account {
 
     @Override
     public Map<PositionKey, Position> getPositions() {
-        // todo
-        return Collections.emptyMap();
+        return positions;
     }
 
     @Override
     public Optional<Position> getPosition(PositionKey positionKey) {
-        // todo
-        return Optional.empty();
+        return Optional.ofNullable(positions.get(positionKey));
     }
 
     @Override

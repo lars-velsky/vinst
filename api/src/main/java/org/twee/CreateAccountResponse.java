@@ -1,6 +1,7 @@
-package org.vinst.core.requests;
+package org.twee;
 
 import org.vinst.account.AccountKey;
+import org.vinst.core.requests.CoreResponse;
 
 import java.io.Serializable;
 

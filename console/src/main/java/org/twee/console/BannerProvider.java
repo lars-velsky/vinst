@@ -1,4 +1,4 @@
-package org.vinst.console;
+package org.twee.console;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;

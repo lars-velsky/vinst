@@ -8,6 +8,6 @@
 
     <import resource="classpath*:META-INF/spring/client.xml" />
 
-    <context:component-scan base-package="org.vinst.console"/>
+    <context:component-scan base-package="org.twee.console"/>
 
 </beans>

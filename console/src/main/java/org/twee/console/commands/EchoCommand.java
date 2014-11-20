@@ -1,4 +1,4 @@
-package org.vinst.console.commands;
+package org.twee.console.commands;
 
 import org.springframework.shell.core.CommandMarker;
 import org.springframework.shell.core.annotation.CliCommand;

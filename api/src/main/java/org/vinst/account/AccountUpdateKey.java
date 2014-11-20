@@ -3,7 +3,7 @@ package org.vinst.account;
 import java.io.Serializable;
 
 /**
- * @author lars-velsky
+ * @author Lars Velsky
  * @since 21/09/14
  */
 public final class AccountUpdateKey implements Serializable {

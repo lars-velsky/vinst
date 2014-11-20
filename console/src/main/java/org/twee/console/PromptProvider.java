@@ -1,4 +1,4 @@
-package org.vinst.console;
+package org.twee.console;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -10,14 +10,14 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class HistoryFileNameProvider implements org.springframework.shell.plugin.HistoryFileNameProvider {
+public class PromptProvider implements org.springframework.shell.plugin.PromptProvider {
     @Override
-    public String getHistoryFileName() {
-        return "vinst-console-history.log";
+    public String getPrompt() {
+        return "vinst>";
     }
 
     @Override
     public String getProviderName() {
-        return "Vinst history file name provider";
+        return "Vinst prompt provider";
     }
 }

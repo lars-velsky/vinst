@@ -1,4 +1,6 @@
-package org.vinst.core.requests;
+package org.twee;
+
+import org.vinst.core.requests.CoreRequest;
 
 import java.io.Serializable;
 

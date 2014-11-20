@@ -5,7 +5,7 @@ package org.vinst.order;
  *
  * todo
  *
- * @author lars-velsky
+ * @author Lars Velsky
  * @since 03/08/14
  *
  * @see Order

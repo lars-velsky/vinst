@@ -13,7 +13,7 @@
                 http://www.hazelcast.com/schema/spring/hazelcast-spring-3.3.xsd">
 
     <!-- General -->
-    <context:component-scan base-package="org.vinst.server"/>
+    <context:component-scan base-package="org.vinst.server, org.twee.server"/>
 
     <!-- Hazelcast -->
     <hz:hazelcast id="instance">
