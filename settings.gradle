@@ -1,1 +1,2 @@
-include 'api', 'common', 'server', 'client', 'console'
+include 'api', 'common', 'server', 'client'
+include 'twee/server', 'twee/console', 'twee/common'
