@@ -23,7 +23,7 @@ public class GetAccountCommand implements CommandMarker {
     @Autowired
     private Core core;
 
-    @CliCommand(value = "get account", help = "Fetches a account")
+    @CliCommand(value = "get-account", help = "Fetches a account")
     public String getAccount(
             @CliOption(key = { "id" }, mandatory = true, help = "Account id")
             long id

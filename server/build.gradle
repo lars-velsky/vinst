@@ -1,6 +1,9 @@
+apply plugin: 'java'
+sourceCompatibility = 1.8
+
 dependencies {
-    compile project(":api")
-    compile project(":common")
+    compile project(":vinst-api")
+    compile project(":vinst-common")
     compile 'com.hazelcast:hazelcast-all:3.3'
     compile 'org.springframework:spring-context:4.1.0.RELEASE'
     compile 'org.springframework.data:spring-data-mongodb:1.6.0.RELEASE'

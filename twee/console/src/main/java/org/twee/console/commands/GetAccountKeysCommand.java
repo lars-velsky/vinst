@@ -23,7 +23,7 @@ public class GetAccountKeysCommand implements CommandMarker {
     @Autowired
     private Core core;
 
-    @CliCommand(value = "get account keys", help = "Prints all account keys")
+    @CliCommand(value = "get-account-keys", help = "Prints all account keys")
     public String getAccountKeys() throws ExecutionException, InterruptedException {
         CompletableFuture<GetAccountKeysResponse> future = core.process(new GetAccountKeysRequest());
         GetAccountKeysResponse createAccountResponse = future.get();

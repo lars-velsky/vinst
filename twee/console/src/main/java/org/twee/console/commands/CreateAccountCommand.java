@@ -26,7 +26,7 @@ public class CreateAccountCommand implements CommandMarker {
     @Autowired
     private Core core;
 
-    @CliCommand(value = "create usd account", help = "Creates new account")
+    @CliCommand(value = "create-usd-account", help = "Creates new account")
     public String createAccount() throws ExecutionException, InterruptedException {
         CompletableFuture<CreateAccountResponse> future = core.process(new CreateAccountRequest());
         CreateAccountResponse createAccountResponse = future.get();
