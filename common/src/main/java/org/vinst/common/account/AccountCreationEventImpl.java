@@ -2,12 +2,11 @@ package org.vinst.common.account;
 
 import org.vinst.account.AccountKey;
 import org.vinst.event.AccountCreationEvent;
-import org.vinst.event.Event;
 
 import java.io.Serializable;
 
 /**
- * @author lars-velsky
+ * @author Lars Velsky
  * @since 21/09/14
  */
 public class AccountCreationEventImpl implements AccountCreationEvent, Serializable {

@@ -1,1 +1,11 @@
-include 'api', 'common', 'server', 'client', 'console'
+include 'api', 'common', 'server', 'client'
+include 'twee:server', 'twee:console', 'twee:common'
+
+project(":api").name = "vinst-api"
+project(":common").name = "vinst-common"
+project(":server").name = "vinst-server"
+project(":client").name = "vinst-client"
+
+project(":twee:server").name = "twee-server"
+project(":twee:console").name = "twee-console"
+project(":twee:common").name = "twee-common"

@@ -1,0 +1,9 @@
+apply plugin: 'application'
+
+mainClassName = 'org.springframework.shell.Bootstrap'
+
+dependencies {
+    compile project(":vinst-client")
+    compile project(":twee:twee-common")
+    compile 'org.springframework.shell:spring-shell:1.1.0.RELEASE'
+}

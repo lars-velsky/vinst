@@ -6,7 +6,7 @@ import org.vinst.event.Event;
 import java.util.List;
 
 /**
- * @author lars-velsky
+ * @author Lars Velsky
  * @since 12/08/14
  */
 public interface AccountUpdate {

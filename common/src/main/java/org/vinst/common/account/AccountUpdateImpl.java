@@ -9,13 +9,14 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @author lars-velsky
+ * @author Lars Velsky
  * @since 21/09/14
  */
 public final class AccountUpdateImpl implements AccountUpdate, Serializable {
 
     @Id
     private final AccountUpdateKey accountKey;
+
     private final List<AccountEvent> events;
 
     public AccountUpdateImpl(AccountUpdateKey accountKey, List<AccountEvent> events) {

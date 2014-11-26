@@ -15,7 +15,7 @@ import java.util.Optional;
  *
  * todo
  *
- * @author lars-velsky
+ * @author Lars Velsky
  * @since 31/07/14
  *
  * @see org.vinst.order.Order

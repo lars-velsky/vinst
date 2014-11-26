@@ -7,7 +7,7 @@ import java.io.Serializable;
  *
  * todo
  *
- * @author lars-velsky
+ * @author Lars Velsky
  * @since 31/07/14
  *
  * @see Account
@@ -42,9 +42,8 @@ public final class AccountKey implements Serializable {
 
         AccountKey that = (AccountKey) o;
 
-        if (id != that.id) return false;
+        return id == that.id;
 
-        return true;
     }
 
     @Override

@@ -3,7 +3,7 @@ package org.vinst.instrument;
 /**
  *
  *
- * @author lars-velsky
+ * @author Lars Velsky
  * @since 12/08/14
  */
 public interface Instrument {

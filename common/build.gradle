@@ -1,4 +1,7 @@
+apply plugin: 'java'
+sourceCompatibility = 1.8
+
 dependencies {
-    compile project(":api")
+    compile project(":vinst-api")
     compile 'org.springframework.data:spring-data-jpa:1.7.0.RELEASE'
 }

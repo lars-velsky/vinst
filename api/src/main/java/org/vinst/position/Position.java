@@ -1,7 +1,5 @@
 package org.vinst.position;
 
-import org.vinst.instrument.InstrumentKey;
-
 /**
  * <p>A position</p>
  *
@@ -9,7 +7,7 @@ import org.vinst.instrument.InstrumentKey;
  *
  * todo
  *
- * @author lars-velsky
+ * @author Lars Velsky
  * @since 03/08/14
  */
 public interface Position {
@@ -20,8 +18,6 @@ public interface Position {
      * @return position key
      */
     PositionKey getKey();
-
-    InstrumentKey getInstrumentKey();
 
     double getQuantity();
 }

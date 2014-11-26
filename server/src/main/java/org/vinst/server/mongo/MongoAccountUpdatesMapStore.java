@@ -1,6 +1,8 @@
 package org.vinst.server.mongo;
 
 import com.hazelcast.core.MapStore;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Service;
@@ -18,11 +20,17 @@ import java.util.stream.Collectors;
 @Service
 public class MongoAccountUpdatesMapStore implements MapStore<AccountUpdateKey, AccountUpdateImpl> {
 
+    private static final Logger log = LoggerFactory.getLogger(MongoAccountUpdatesMapStore.class);
+
     @Autowired
     private MongoOperations mongoOp;
 
     @Override
     public void store(AccountUpdateKey key, AccountUpdateImpl value) {
+        if (!key.equals(value.getAccountUpdateKey())){
+            throw new IllegalArgumentException("Wrong " + key + " for " + value);
+        }
+        log.debug("Storing {}", value);
         mongoOp.insert(value);
     }
 
@@ -43,11 +51,18 @@ public class MongoAccountUpdatesMapStore implements MapStore<AccountUpdateKey, A
 
     @Override
     public AccountUpdateImpl load(AccountUpdateKey key) {
+        log.debug("Loading account update for {}", key);
         return mongoOp.findById(key, AccountUpdateImpl.class);
     }
 
     @Override
     public Map<AccountUpdateKey, AccountUpdateImpl> loadAll(Collection<AccountUpdateKey> keys) {
+        if (keys.size() > 5){
+            log.debug("Loading {} account updates", keys.size());
+        } else {
+            log.debug("Loading account updates for {}", keys);
+        }
+
         // todo can this be optimized?
         return keys.stream()
                 .map(this::load)
@@ -58,9 +73,12 @@ public class MongoAccountUpdatesMapStore implements MapStore<AccountUpdateKey, A
 
     @Override
     public Set<AccountUpdateKey> loadAllKeys() {
+        log.debug("Loading all the keys");
         // todo can this be optimized?
-        return mongoOp.findAll(AccountUpdateImpl.class).stream()
+        Set<AccountUpdateKey> keys = mongoOp.findAll(AccountUpdateImpl.class).stream()
                 .map(AccountUpdateImpl::getAccountUpdateKey)
                 .collect(Collectors.toSet());
+        log.debug("{} account update keys loaded from db", keys.size());
+        return keys;
     }
 }

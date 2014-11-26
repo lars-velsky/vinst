@@ -3,7 +3,7 @@ package org.vinst.account;
 import java.io.Serializable;
 
 /**
- * @author lars-velsky
+ * @author Lars Velsky
  * @since 21/09/14
  */
 public final class AccountUpdateKey implements Serializable {
@@ -53,5 +53,13 @@ public final class AccountUpdateKey implements Serializable {
         int result = accountKey.hashCode();
         result = 31 * result + (int) (version ^ (version >>> 32));
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "AccountUpdateKey{" +
+                "accountKey=" + accountKey +
+                ", version=" + version +
+                '}';
     }
 }

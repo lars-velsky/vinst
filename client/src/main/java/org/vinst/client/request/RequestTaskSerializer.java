@@ -9,7 +9,7 @@ import org.vinst.common.Constants;
 import java.io.IOException;
 
 /**
- * @author lars-velsky
+ * @author Lars Velsky
  * @since 16/09/14
  */
 @Service
