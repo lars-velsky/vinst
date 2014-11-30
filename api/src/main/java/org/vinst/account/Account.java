@@ -5,84 +5,59 @@ import org.vinst.order.OrderKey;
 import org.vinst.position.Position;
 import org.vinst.position.PositionKey;
 
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 /**
- * <p>An account.</p>
- *
- * <p>Orders and positions constitute account.</p>
- *
- * todo
- *
  * @author Lars Velsky
  * @since 31/07/14
- *
- * @see org.vinst.order.Order
- * @see org.vinst.position.Position
  */
-public interface Account {
+public final class Account implements Serializable {
 
-    /**
-     * <p>Returns this account's key.</p>
-     *
-     * @return account key
-     */
-    AccountKey getAccountKey();
 
-    /**
-     * <p>Returns this account's version.</p>
-     *
-     * @return account version
-     */
-    long getVersion();
+    private final AccountKey key;
+    private final long version;
+    private Map<PositionKey, Position> positions;
 
-    /**
-     * <p>Returns a map that contains all the orders
-     * this account contains.</p>
-     *
-     * @return orders
-     *
-     * @see org.vinst.order.Order
-     */
-    Map<OrderKey, Order> getOrders();
+    public Account(AccountKey key, long version, Map<PositionKey, Position> positions) {
+        this.key = key;
+        this.version = version;
+        this.positions = Collections.unmodifiableMap(new HashMap<>(positions));
+    }
 
-    /**
-     * <p>Returns an order by its key.</p>
-     *
-     * <p>Uses {@link Optional} since this account
-     * may not contain the order with the given key</p>
-     *
-     * @param orderKey order key
-     *
-     * @return order
-     *
-     * @see Order
-     */
-    Optional<Order> getOrder(OrderKey orderKey);
+    public AccountKey getAccountKey() {
+        return key;
+    }
 
-    /**
-     * <p>Returns a map that contains all the positions
-     * this account contains.</p>
-     *
-     * @return positions
-     *
-     * @see org.vinst.position.Position
-     */
-    Map<PositionKey, Position> getPositions();
+    public long getVersion() {
+        return version;
+    }
 
-    /**
-     * <p>Returns a position by its key.</p>
-     *
-     * <p>Uses {@link Optional} since this account
-     * may not contain the position with the given key</p>
-     *
-     * @param positionKey position key
-     *
-     * @return position
-     *
-     * @see Position
-     */
-    Optional<Position> getPosition(PositionKey positionKey);
+    public Map<OrderKey, Order> getOrders() {
+        // todo
+        return Collections.emptyMap();
+    }
 
+    public Optional<Order> getOrder(OrderKey orderKey) {
+        // todo
+        return Optional.empty();
+    }
+
+    public Map<PositionKey, Position> getPositions() {
+        return positions;
+    }
+
+    public Optional<Position> getPosition(PositionKey positionKey) {
+        return Optional.ofNullable(positions.get(positionKey));
+    }
+
+    @Override
+    public String toString() {
+        return "AccountImpl{" +
+                "key=" + key +
+                '}';
+    }
 }

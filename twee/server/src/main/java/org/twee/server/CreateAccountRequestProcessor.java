@@ -9,9 +9,9 @@ import org.twee.CreateAccountResponse;
 import org.twee.USD;
 import org.vinst.account.AccountKey;
 import org.vinst.account.AccountUpdateKey;
-import org.vinst.common.account.AccountCreationEventImpl;
+import org.vinst.event.AccountCreation;
 import org.vinst.common.account.AccountUpdateImpl;
-import org.vinst.common.account.PositionCreateImpl;
+import org.vinst.event.PositionCreation;
 import org.vinst.event.AccountEvent;
 import org.vinst.position.PositionKey;
 import org.vinst.server.dao.AccountUpdateDAO;
@@ -52,8 +52,8 @@ public class CreateAccountRequestProcessor implements RequestProcessor<CreateAcc
 
         List<AccountEvent> events = new ArrayList<>();
 
-        events.add(new AccountCreationEventImpl(accountKey));
-        events.add(new PositionCreateImpl(0, PositionKey.of(USD.KEY), accountKey));
+        events.add(new AccountCreation(accountKey));
+        events.add(new PositionCreation(0, PositionKey.of(USD.KEY), accountKey));
 
         AccountUpdateKey accountUpdateKey = AccountUpdateKey.of(accountKey, 0);
         AccountUpdateImpl accountUpdate = new AccountUpdateImpl(accountUpdateKey, events);

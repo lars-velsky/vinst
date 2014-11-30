@@ -15,18 +15,18 @@ import java.util.List;
 public final class AccountUpdateImpl implements AccountUpdate, Serializable {
 
     @Id
-    private final AccountUpdateKey accountKey;
+    private final AccountUpdateKey accountUpdateKey;
 
     private final List<AccountEvent> events;
 
-    public AccountUpdateImpl(AccountUpdateKey accountKey, List<AccountEvent> events) {
-        this.accountKey = accountKey;
+    public AccountUpdateImpl(AccountUpdateKey accountUpdateKey, List<AccountEvent> events) {
+        this.accountUpdateKey = accountUpdateKey;
         this.events = events;
     }
 
     @Override
     public AccountUpdateKey getAccountUpdateKey() {
-        return accountKey;
+        return accountUpdateKey;
     }
 
     @Override

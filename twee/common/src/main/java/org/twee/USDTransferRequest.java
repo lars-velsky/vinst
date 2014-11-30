@@ -3,11 +3,13 @@ package org.twee;
 import org.vinst.account.AccountKey;
 import org.vinst.core.requests.CoreRequest;
 
+import java.io.Serializable;
+
 /**
  * @author Lars Velsky
  * @since 15/11/14
  */
-public final class USDTransferRequest implements CoreRequest<USDTransferResponse> {
+public final class USDTransferRequest implements CoreRequest<USDTransferResponse>, Serializable {
 
     private final AccountKey accountKey;
     private final double quantity;

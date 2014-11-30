@@ -11,21 +11,19 @@ import org.vinst.account.AccountKey;
 import org.vinst.account.AccountUpdate;
 import org.vinst.account.AccountUpdateKey;
 import org.vinst.common.Constants;
-import org.vinst.common.account.AccountCreationEventImpl;
-import org.vinst.common.account.AccountImpl;
+import org.vinst.event.AccountCreation;
 import org.vinst.common.account.AccountUpdateImpl;
-import org.vinst.common.account.PositionImpl;
-import org.vinst.event.AccountCreationEvent;
-import org.vinst.event.AccountEvent;
-import org.vinst.event.Event;
-import org.vinst.event.PositionCreate;
+import org.vinst.event.PositionCreation;
+import org.vinst.event.PositionUpdate;
 import org.vinst.position.Position;
+import org.vinst.event.AccountEvent;
 import org.vinst.position.PositionKey;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -67,7 +65,7 @@ public class AccountUpdateDAO {
         log.debug("Collecting created account keys");
         return getMap().values().stream()
                 .flatMap(au -> au.getEvents().stream())
-                .filter(e -> e.getClass().equals(AccountCreationEventImpl.class))
+                .filter(e -> e.getClass().equals(AccountCreation.class))
                 .map(AccountEvent::getAccountKey)
                 .collect(Collectors.toSet());
     }
@@ -84,12 +82,11 @@ public class AccountUpdateDAO {
         return builder.toAccount();
     }
 
-    private static class AccountBuilder implements Event.Visitor {
+    private static class AccountBuilder {
 
         private final AccountKey accountKey;
         private long version;
-        // todo position builders should be used here
-        private Map<PositionKey, Position> positions = new HashMap<>();
+        private Map<PositionKey, PositionBuilder> positionBuilders = new HashMap<>();
 
         private AccountBuilder(AccountKey accountKey, long version) {
             this.accountKey = accountKey;
@@ -103,22 +100,47 @@ public class AccountUpdateDAO {
 
             version++;
 
-            update.getEvents().forEach(e -> e.visit(this));
+            // todo ugly 'instanceof' code. make it nice
+            update.getEvents().forEach(e -> {
+                if (e instanceof PositionCreation){
+                    PositionCreation positionCreation = (PositionCreation) e;
+                    PositionKey positionKey = positionCreation.getPositionKey();
+                    positionBuilders.put(positionKey,
+                            new PositionBuilder(positionKey, positionCreation.getInitialQuantity()));
+                } else if (e instanceof PositionUpdate){
+                    PositionUpdate positionUpdate = (PositionUpdate) e;
+                    PositionBuilder positionBuilder = positionBuilders.get(positionUpdate.getPositionKey());
+                    positionBuilder.updateQuantity(positionUpdate.getQuantityDelta());
+                }
+            });
         }
 
         private Account toAccount(){
-            return new AccountImpl(accountKey, version, positions);
+            Map<PositionKey, Position> positions = positionBuilders.values().stream()
+                    .map(PositionBuilder::toPosition)
+                    .collect(Collectors.toMap(Position::getKey, Function.identity()));
+
+            return new Account(accountKey, version, positions);
         }
 
-        @Override
-        public void visitAccountCreation(AccountCreationEvent event) {
-            // do nothing
+    }
+
+    private static class PositionBuilder {
+
+        private final PositionKey key;
+        private double quantity;
+
+        private PositionBuilder(PositionKey key, double quantity) {
+            this.key = key;
+            this.quantity = quantity;
         }
 
-        @Override
-        public void visitPositionCreate(PositionCreate positionCreate) {
-            positions.put(positionCreate.getPositionKey(),
-                    new PositionImpl(positionCreate.getPositionKey(), positionCreate.getInitialQuantity()));
+        public void updateQuantity(double quantityDelta) {
+            this.quantity += quantityDelta;
+        }
+
+        Position toPosition(){
+            return new Position(key, quantity);
         }
     }
 }

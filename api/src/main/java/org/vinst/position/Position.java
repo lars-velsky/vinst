@@ -1,23 +1,26 @@
 package org.vinst.position;
 
+import java.io.Serializable;
+
 /**
- * <p>A position</p>
- *
- * <p>Positions are what an account has</p>
- *
- * todo
- *
  * @author Lars Velsky
- * @since 03/08/14
+ * @since 19/11/14
  */
-public interface Position {
+public final class Position implements Serializable {
 
-    /**
-     * <p>Returns this position's key</p>
-     *
-     * @return position key
-     */
-    PositionKey getKey();
+    private final PositionKey positionKey;
+    private final double quantity;
 
-    double getQuantity();
+    public Position(PositionKey positionKey, double quantity) {
+        this.positionKey = positionKey;
+        this.quantity = quantity;
+    }
+
+    public PositionKey getKey() {
+        return positionKey;
+    }
+
+    public double getQuantity() {
+        return quantity;
+    }
 }
