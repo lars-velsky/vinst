@@ -9,4 +9,14 @@ import java.io.Serializable;
  * @since 15/11/14
  */
 public final class USDTransferResponse implements CoreResponse, Serializable {
+
+    private final double resultingBalance;
+
+    public USDTransferResponse(double resultingBalance) {
+        this.resultingBalance = resultingBalance;
+    }
+
+    public double getResultingBalance(){
+        return resultingBalance;
+    }
 }

@@ -36,12 +36,15 @@ public class USDTransferRequestProcessor implements RequestProcessor<USDTransfer
         AccountKey accountKey = request.getAccountKey();
         Account account = accountUpdateDAO.getAccount(accountKey);
 
-        PositionUpdate positionUpdate = new PositionUpdate(accountKey, TweeAccount.POSITION_KEY, request.getQuantity());
+        double quantity = request.getQuantity();
+        double resultingBalance = new TweeAccount(account).getBalanceUSD() + quantity;
+
+        PositionUpdate positionUpdate = new PositionUpdate(accountKey, TweeAccount.POSITION_KEY, quantity);
         AccountUpdateKey accountUpdateKey = AccountUpdateKey.of(accountKey, account.getVersion() + 1);
         AccountUpdateImpl accountUpdate = new AccountUpdateImpl(accountUpdateKey, Collections.singletonList(positionUpdate));
 
         accountUpdateDAO.saveAccountUpdate(accountUpdate);
 
-        return new USDTransferResponse();
+        return new USDTransferResponse(resultingBalance);
     }
 }

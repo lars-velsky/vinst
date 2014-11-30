@@ -4,6 +4,8 @@ import org.vinst.account.Account;
 import org.vinst.position.PositionKey;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 /**
  * @author Lars Velsky
@@ -11,7 +13,15 @@ import java.io.Serializable;
  */
 public final class TweeAccount implements Serializable {
 
+    private final static NumberFormat numberFormat = new DecimalFormat();
+
+    static {
+        numberFormat.setMaximumFractionDigits(2);
+        numberFormat.setMinimumFractionDigits(2);
+    }
+
     public static final PositionKey POSITION_KEY = PositionKey.of(USD.KEY);
+
     private final Account account;
 
     public TweeAccount(Account account) {
@@ -32,6 +42,6 @@ public final class TweeAccount implements Serializable {
     public String toString() {
         return "TweeAccount #" + account.getAccountKey().getId() +
                 " v." + account.getVersion() +
-                " balance " + getBalanceUSD() + " USD";
+                " balance " + numberFormat.format(getBalanceUSD()) + " USD";
     }
 }
