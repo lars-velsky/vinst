@@ -6,7 +6,6 @@ import org.twee.TweeAccount;
 import org.twee.USDTransferRequest;
 import org.twee.USDTransferResponse;
 import org.vinst.account.Account;
-import org.vinst.account.AccountKey;
 import org.vinst.account.AccountUpdateKey;
 import org.vinst.common.account.AccountUpdateImpl;
 import org.vinst.event.PositionUpdate;
@@ -32,19 +31,26 @@ public class USDTransferRequestProcessor implements RequestProcessor<USDTransfer
 
     @Override
     public USDTransferResponse processRequest(USDTransferRequest request) {
-        // todo synchronization needed
-        AccountKey accountKey = request.getAccountKey();
-        Account account = accountUpdateDAO.getAccount(accountKey);
+        return accountUpdateDAO.getAccount(request.getAccountKey())
+                .map(account -> {
+                    try {
+                        double quantity = request.getQuantity();
+                        return new USDTransferResponse(addToBalance(quantity, account));
+                    } catch (Exception e) {
+                        return new USDTransferResponse(e);
+                    }
+                })
+                .orElse(new USDTransferResponse(new IllegalArgumentException("No account with " + request.getAccountKey())));
+    }
 
-        double quantity = request.getQuantity();
-        double resultingBalance = new TweeAccount(account).getBalanceUSD() + quantity;
-
-        PositionUpdate positionUpdate = new PositionUpdate(accountKey, TweeAccount.POSITION_KEY, quantity);
-        AccountUpdateKey accountUpdateKey = AccountUpdateKey.of(accountKey, account.getVersion() + 1);
+    private double addToBalance(double quantity, Account account) {
+        PositionUpdate positionUpdate = new PositionUpdate(account.getAccountKey(), TweeAccount.BALANCE_POSITION_KEY, quantity);
+        AccountUpdateKey accountUpdateKey = AccountUpdateKey.of(account.getAccountKey(), account.getVersion() + 1);
         AccountUpdateImpl accountUpdate = new AccountUpdateImpl(accountUpdateKey, Collections.singletonList(positionUpdate));
 
+        // todo synchronization needed
         accountUpdateDAO.saveAccountUpdate(accountUpdate);
 
-        return new USDTransferResponse(resultingBalance);
+        return new TweeAccount(account).getBalanceUSD() + quantity;
     }
 }

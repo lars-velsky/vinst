@@ -18,8 +18,11 @@ public final class USDTransferRequest implements CoreRequest<USDTransferResponse
         if (accountKey == null){
             throw new IllegalArgumentException("Account key should not be null");
         }
-        if (quantity == 0){
+        if (quantity == 0) {
             throw new IllegalArgumentException("Why transfer 0 dollars?");
+        }
+        if (Double.isNaN(quantity) || Double.isInfinite(quantity)){
+            throw new IllegalArgumentException("Meaningless transfer amount: " + Double.toString(quantity));
         }
 
         this.accountKey = accountKey;

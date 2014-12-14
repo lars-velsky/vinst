@@ -7,11 +7,11 @@ import org.springframework.shell.core.annotation.CliOption;
 import org.springframework.stereotype.Component;
 import org.twee.GetAccountRequest;
 import org.twee.GetAccountResponse;
+import org.twee.TweeAccount;
+import org.twee.Utils;
 import org.vinst.account.AccountKey;
 import org.vinst.core.Core;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -28,11 +28,19 @@ public class GetAccountCommand implements CommandMarker {
     @CliCommand(value = "get-account", help = "Fetches a account")
     public String getAccount(
             @CliOption(key = { "id" }, mandatory = true, help = "Account ID")
-            long id
+            String idString
     ) throws ExecutionException, InterruptedException {
-        CompletableFuture<GetAccountResponse> future = core.process(new GetAccountRequest(AccountKey.of(id)));
+        AccountKey accountKey;
+        try {
+            accountKey = Utils.getAccountKey(idString);
+        } catch (NumberFormatException e){
+            return "Invalid account id: " + idString;
+        }
+        CompletableFuture<GetAccountResponse> future = core.process(new GetAccountRequest(accountKey));
         GetAccountResponse getAccountResponse = future.get();
-        return getAccountResponse.getAccount().toString();
+        return getAccountResponse.getAccount()
+                .map(TweeAccount::toString)
+                .orElse("No account with " + accountKey);
     }
 
 }

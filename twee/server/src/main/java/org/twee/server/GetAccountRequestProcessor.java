@@ -9,8 +9,10 @@ import org.vinst.account.Account;
 import org.vinst.server.dao.AccountUpdateDAO;
 import org.vinst.server.request.RequestProcessor;
 
+import java.util.Optional;
+
 /**
- * @author //todo
+ * @author Lars Velsky
  * @since 19/11/14
  */
 @Component
@@ -26,8 +28,8 @@ public class GetAccountRequestProcessor implements RequestProcessor<GetAccountRe
 
     @Override
     public GetAccountResponse processRequest(GetAccountRequest request) {
-        Account account = accountUpdateDAO.getAccount(request.getAccountKey());
-        TweeAccount tweeAccount = new TweeAccount(account);
-        return new GetAccountResponse(tweeAccount);
+        Optional<Account> account = accountUpdateDAO.getAccount(request.getAccountKey());
+        // todo is it possible not to use null at all?
+        return new GetAccountResponse(account.map(TweeAccount::new).orElse(null));
     }
 }

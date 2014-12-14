@@ -22,6 +22,7 @@ import org.vinst.position.PositionKey;
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -70,7 +71,8 @@ public class AccountUpdateDAO {
                 .collect(Collectors.toSet());
     }
 
-    public Account getAccount(AccountKey accountKey){
+    public Optional<Account> getAccount(AccountKey accountKey){
+        // todo this should be done via account cache or accounts map
         log.debug("Trying to build account {}", accountKey);
         AccountBuilder builder = new AccountBuilder(accountKey, -1);
 
@@ -115,12 +117,14 @@ public class AccountUpdateDAO {
             });
         }
 
-        private Account toAccount(){
+        private Optional<Account> toAccount(){
             Map<PositionKey, Position> positions = positionBuilders.values().stream()
                     .map(PositionBuilder::toPosition)
                     .collect(Collectors.toMap(Position::getKey, Function.identity()));
 
-            return new Account(accountKey, version, positions);
+            // todo not very elegant
+            return version == -1? Optional.empty():
+                    Optional.of(new Account(accountKey, version, positions));
         }
 
     }

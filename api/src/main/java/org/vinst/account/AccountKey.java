@@ -30,9 +30,7 @@ public final class AccountKey implements Serializable {
 
     @Override
     public String toString() {
-        return "AccountKey{" +
-                "id=" + id +
-                '}';
+        return "AccountKey #" + id;
     }
 
     @Override

@@ -3,6 +3,7 @@ package org.twee;
 import org.vinst.core.requests.CoreResponse;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 /**
  * @author Lars Velsky
@@ -16,7 +17,7 @@ public final class GetAccountResponse implements CoreResponse, Serializable {
         this.tweeAccount = tweeAccount;
     }
 
-    public TweeAccount getAccount(){
-        return tweeAccount;
+    public Optional<TweeAccount> getAccount(){
+        return Optional.ofNullable(tweeAccount);
     }
 }
