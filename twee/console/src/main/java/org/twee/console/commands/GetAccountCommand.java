@@ -7,7 +7,6 @@ import org.springframework.shell.core.annotation.CliOption;
 import org.springframework.stereotype.Component;
 import org.twee.GetAccountRequest;
 import org.twee.GetAccountResponse;
-import org.twee.TweeAccount;
 import org.twee.Utils;
 import org.vinst.account.AccountKey;
 import org.vinst.core.Core;
@@ -37,10 +36,16 @@ public class GetAccountCommand implements CommandMarker {
             return "Invalid account id: " + idString;
         }
         CompletableFuture<GetAccountResponse> future = core.process(new GetAccountRequest(accountKey));
-        GetAccountResponse getAccountResponse = future.get();
-        return getAccountResponse.getAccount()
-                .map(TweeAccount::toString)
-                .orElse("No account with " + accountKey);
+        GetAccountResponse getAccountResponse;
+        try {
+            getAccountResponse = future.get();
+        } catch (Throwable e){
+            while (e.getCause() != null){
+                e = e.getCause();
+            }
+            return e.getMessage();
+        }
+        return getAccountResponse.getAccount().toString();
     }
 
 }

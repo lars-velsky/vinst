@@ -29,7 +29,7 @@ public class GetAccountRequestProcessor implements RequestProcessor<GetAccountRe
     @Override
     public GetAccountResponse processRequest(GetAccountRequest request) {
         Optional<Account> account = accountUpdateDAO.getAccount(request.getAccountKey());
-        // todo is it possible not to use null at all?
-        return new GetAccountResponse(account.map(TweeAccount::new).orElse(null));
+        return new GetAccountResponse(account.map(TweeAccount::new)
+                .orElseThrow(() -> new IllegalArgumentException("No account with " + request.getAccountKey())));
     }
 }

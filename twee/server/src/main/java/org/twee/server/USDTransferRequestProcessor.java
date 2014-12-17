@@ -32,15 +32,8 @@ public class USDTransferRequestProcessor implements RequestProcessor<USDTransfer
     @Override
     public USDTransferResponse processRequest(USDTransferRequest request) {
         return accountUpdateDAO.getAccount(request.getAccountKey())
-                .map(account -> {
-                    try {
-                        double quantity = request.getQuantity();
-                        return new USDTransferResponse(addToBalance(quantity, account));
-                    } catch (Exception e) {
-                        return new USDTransferResponse(e);
-                    }
-                })
-                .orElse(new USDTransferResponse(new IllegalArgumentException("No account with " + request.getAccountKey())));
+                .map(account -> new USDTransferResponse(addToBalance(request.getQuantity(), account)))
+                .orElseThrow(() -> new IllegalArgumentException("No account with " + request.getAccountKey()));
     }
 
     private double addToBalance(double quantity, Account account) {

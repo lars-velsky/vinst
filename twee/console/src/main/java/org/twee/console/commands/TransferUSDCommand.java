@@ -39,10 +39,16 @@ public class TransferUSDCommand implements CommandMarker {
         }
 
         CompletableFuture<USDTransferResponse> future = core.process(new USDTransferRequest(accountKey, amount));
-        USDTransferResponse transferResponse = future.get();
-        return transferResponse.getException()
-                .map(e -> e.getClass().getSimpleName() + ": " + e.getMessage())
-                .orElse("New balance: " + Utils.formatUSDAmount(transferResponse.getResultingBalance()) + " USD");
+        USDTransferResponse transferResponse;
+        try {
+            transferResponse = future.get();
+        } catch (Throwable e){
+            while (e.getCause() != null){
+                e = e.getCause();
+            }
+            return e.getMessage();
+        }
+        return "New balance: " + Utils.formatUSDAmount(transferResponse.getResultingBalance()) + " USD";
     }
 
 

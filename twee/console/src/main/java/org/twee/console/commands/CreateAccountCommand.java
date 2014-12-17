@@ -29,7 +29,15 @@ public class CreateAccountCommand implements CommandMarker {
     @CliCommand(value = "create-usd-account", help = "Creates new account")
     public String createAccount() throws ExecutionException, InterruptedException {
         CompletableFuture<CreateAccountResponse> future = core.process(new CreateAccountRequest());
-        CreateAccountResponse createAccountResponse = future.get();
+        CreateAccountResponse createAccountResponse;
+        try {
+            createAccountResponse = future.get();
+        } catch (Throwable e) {
+            while (e.getCause() != null){
+                e = e.getCause();
+            }
+            return e.getMessage();
+        }
         return "Account created: " + createAccountResponse.getAccountKey().toString();
     }
 }

@@ -12,6 +12,7 @@ import org.vinst.core.requests.CoreRequest;
 import org.vinst.core.requests.CoreResponse;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @author Lars Velsky
@@ -36,7 +37,12 @@ public class CoreImpl implements Core {
 
             @Override
             public void onFailure(Throwable t) {
-                future.completeExceptionally(t);
+                // strip excessive ExecutionException
+                if (t instanceof ExecutionException && t.getCause() != null) {
+                    future.completeExceptionally(t.getCause());
+                } else {
+                    future.completeExceptionally(t);
+                }
             }
         });
         return future;
