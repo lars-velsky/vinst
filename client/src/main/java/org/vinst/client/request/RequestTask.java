@@ -9,7 +9,7 @@ import java.util.concurrent.Callable;
  * @author Lars Velsky
  * @since 14/09/14
  */
-public class RequestTask<REQ extends CoreRequest<RESP>, RESP extends CoreResponse> implements Callable<RESP> {
+public final class RequestTask<REQ extends CoreRequest<RESP>, RESP extends CoreResponse> implements Callable<RESP> {
 
     final REQ request;
 

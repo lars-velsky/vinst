@@ -1,7 +1,8 @@
 dependencies {
     compile project(":vinst-server")
+    compile project(":vinst-mongo-map-store")
     compile project(":twee:twee-common")
-    compile 'ch.qos.logback:logback-classic:1.1.2'
-    compile 'ch.qos.logback:logback-core:1.1.2'
+    runtime 'ch.qos.logback:logback-classic:1.1.2'
+    runtime 'ch.qos.logback:logback-core:1.1.2'
     runtime "org.codehaus.groovy:groovy:2.3.7"
 }

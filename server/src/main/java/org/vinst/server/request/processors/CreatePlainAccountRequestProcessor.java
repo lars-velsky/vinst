@@ -1,19 +1,16 @@
-package org.twee.server;
+package org.vinst.server.request.processors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.twee.CreateAccountRequest;
-import org.twee.CreateAccountResponse;
-import org.twee.USD;
 import org.vinst.account.AccountKey;
 import org.vinst.account.AccountUpdateKey;
-import org.vinst.event.AccountCreation;
 import org.vinst.common.account.AccountUpdateImpl;
-import org.vinst.event.PositionCreation;
+import org.vinst.core.requests.CreatePlainAccountRequest;
+import org.vinst.core.requests.CreatePlainAccountResponse;
+import org.vinst.event.AccountCreation;
 import org.vinst.event.AccountEvent;
-import org.vinst.position.PositionKey;
 import org.vinst.server.dao.AccountUpdateDAO;
 import org.vinst.server.request.RequestProcessor;
 
@@ -23,12 +20,12 @@ import java.util.Random;
 
 /**
  * @author Lars Velsky
- * @since 22/09/14
+ * @since 21/12/14
  */
 @Component
-public class CreateAccountRequestProcessor implements RequestProcessor<CreateAccountRequest, CreateAccountResponse> {
+public class CreatePlainAccountRequestProcessor implements RequestProcessor<CreatePlainAccountRequest, CreatePlainAccountResponse> {
 
-    private static Logger log = LoggerFactory.getLogger(CreateAccountRequestProcessor.class);
+    private static Logger log = LoggerFactory.getLogger(CreatePlainAccountRequestProcessor.class);
 
     private static final Random rnd = new Random();
 
@@ -36,12 +33,12 @@ public class CreateAccountRequestProcessor implements RequestProcessor<CreateAcc
     private AccountUpdateDAO accountUpdateDAO;
 
     @Override
-    public Class<CreateAccountRequest> getRequestClass() {
-        return CreateAccountRequest.class;
+    public Class<CreatePlainAccountRequest> getRequestClass() {
+        return CreatePlainAccountRequest.class;
     }
 
     @Override
-    public CreateAccountResponse processRequest(CreateAccountRequest request) {
+    public CreatePlainAccountResponse processRequest(CreatePlainAccountRequest request) {
         // we do not lock anything yet - we take an optimistic approach:
         // because account update key consist of an account key AND version
         // accountUpdateDAO shouldn't let us insert an already present
@@ -53,13 +50,12 @@ public class CreateAccountRequestProcessor implements RequestProcessor<CreateAcc
         List<AccountEvent> events = new ArrayList<>();
 
         events.add(new AccountCreation(accountKey));
-        events.add(new PositionCreation(0, PositionKey.of(USD.KEY), accountKey));
 
         AccountUpdateKey accountUpdateKey = AccountUpdateKey.of(accountKey, 0);
         AccountUpdateImpl accountUpdate = new AccountUpdateImpl(accountUpdateKey, events);
 
         accountUpdateDAO.saveAccountUpdate(accountUpdate);
-        log.info("USD Account with id {} created", id);
-        return new CreateAccountResponse(accountKey);
+        log.info("Account with id {} created", id);
+        return new CreatePlainAccountResponse(accountKey);
     }
 }

@@ -14,7 +14,7 @@ import java.io.IOException;
  * @since 15/09/14
  */
 @Service
-public class ServerRequestTaskSerializer implements StreamSerializer<ServerRequestTask> {
+public final class ServerRequestTaskSerializer implements StreamSerializer<ServerRequestTask> {
 
     @Autowired
     private RequestProcessorsRegistry requestProcessorsRegistry;

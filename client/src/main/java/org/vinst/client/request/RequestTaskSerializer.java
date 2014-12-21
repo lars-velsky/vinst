@@ -13,7 +13,7 @@ import java.io.IOException;
  * @since 16/09/14
  */
 @Service
-public class RequestTaskSerializer implements StreamSerializer<RequestTask> {
+public final class RequestTaskSerializer implements StreamSerializer<RequestTask> {
 
 
     @Override

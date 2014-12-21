@@ -6,7 +6,7 @@ import org.vinst.core.requests.CoreResponse;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Facade of trade system.
+ * <p>System's facade.</p>
  *
  * @author Sergey Mischenko
  * @since 27.08.2014

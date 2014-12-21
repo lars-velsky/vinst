@@ -52,9 +52,6 @@ public class AccountUpdateDAO {
 
     public void saveAccountUpdate(AccountUpdateImpl accountUpdate){
         log.debug("Saving account update {}", accountUpdate);
-        // even though mongo should not let us save account updates with
-        // identical keys, we still use puIfAbsent() just in case we
-        // would want to go without persistence some time
         // todo this method calls equals() on byte[]s not on objects - make sure it's ok
         if (getMap().putIfAbsent(accountUpdate.getAccountUpdateKey(), accountUpdate) != null){
             throw new IllegalArgumentException("Account update with " + accountUpdate.getAccountUpdateKey() + " is already present in the map");
@@ -63,7 +60,7 @@ public class AccountUpdateDAO {
 
     public Set<AccountKey> getAccountKeys() {
         // todo this should be done via account cache or accounts map
-        log.debug("Collecting created account keys");
+        log.debug("Collecting account keys");
         return getMap().values().stream()
                 .flatMap(au -> au.getEvents().stream())
                 .filter(e -> e.getClass().equals(AccountCreation.class))

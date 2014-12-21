@@ -19,7 +19,7 @@ import java.util.concurrent.ExecutionException;
  * @since 28/08/14
  */
 @Service
-public class CoreImpl implements Core {
+public final class CoreImpl implements Core {
 
     @Autowired
     private HazelcastInstance hzClient;

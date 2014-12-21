@@ -9,7 +9,7 @@ import java.util.concurrent.Callable;
  * @author Lars Velsky
  * @since 15/09/14
  */
-public class ServerRequestTask implements Callable<CoreResponse> {
+public final class ServerRequestTask implements Callable<CoreResponse> {
 
     private final RequestProcessorsRegistry requestProcessorsRegistry;
     private final CoreRequest request;
