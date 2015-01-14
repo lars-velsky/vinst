@@ -13,7 +13,7 @@ package org.vinst.order;
 public enum OrderStatus {
 
     /**
-     * Newly create orders
+     * Newly created orders
      */
     NEW,
 

@@ -1,5 +1,5 @@
 include 'api', 'common', 'server', 'client', 'tests', 'mongo-map-store'
-include 'twee:server', 'twee:console', 'twee:common'
+include 'twee:server', 'twee:console', 'twee:common', 'twee:tests'
 
 project(":api").name = "vinst-api"
 project(":common").name = "vinst-common"
@@ -11,3 +11,4 @@ project(":mongo-map-store").name = "vinst-mongo-map-store"
 project(":twee:server").name = "twee-server"
 project(":twee:console").name = "twee-console"
 project(":twee:common").name = "twee-common"
+project(":twee:tests").name = "twee-tests"
