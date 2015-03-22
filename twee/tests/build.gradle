@@ -5,7 +5,7 @@ dependencies {
     testCompile project(":vinst-client")
     testCompile project(":twee:twee-common")
     testCompile project(":twee:twee-server")
-    testCompile 'com.hazelcast:hazelcast-all:3.3'
+    testCompile 'com.hazelcast:hazelcast-all:3.4.1'
     testCompile 'org.springframework:spring-context:4.1.0.RELEASE'
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testRuntime 'ch.qos.logback:logback-classic:1.1.2'
