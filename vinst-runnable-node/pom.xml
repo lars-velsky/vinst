@@ -13,6 +13,7 @@
     </parent>
 
     <artifactId>vinst-runnable-node</artifactId>
+    <packaging>pom</packaging>
 
     <build>
         <plugins>
