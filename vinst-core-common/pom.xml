@@ -9,7 +9,7 @@
     <parent>
         <groupId>org.vinst</groupId>
         <artifactId>vinst</artifactId>
-        <version>SNAPSHOT</version>
+        <version>DEVELOP</version>
     </parent>
 
     <artifactId>vinst-core-common</artifactId>
