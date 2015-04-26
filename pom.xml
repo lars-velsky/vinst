@@ -16,6 +16,7 @@
         <module>vinst-core-cluster</module>
         <module>vinst-core-common</module>
         <module>vinst-core-smoke-test</module>
+        <module>vinst-runnable-node</module>
     </modules>
 
     <properties>
@@ -36,6 +37,15 @@
                 </configuration>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>1.3.2</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
     <dependencies>
