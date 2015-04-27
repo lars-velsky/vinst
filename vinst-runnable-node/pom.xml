@@ -25,7 +25,8 @@
                     <arguments>
                         <argument>-classpath</argument>
                         <classpath/>
-                    <argument>org.vinst.core.cluster.NodeLauncher</argument>
+                        <argument>org.vinst.core.cluster.NodeLauncher</argument>
+                        <argument>node.properties</argument>
                     </arguments>
                 </configuration>
             </plugin>

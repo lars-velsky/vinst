@@ -1,7 +1,8 @@
 package org.vinst.core.cluster;
 
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.core.env.MutablePropertySources;
+import org.springframework.core.env.PropertiesPropertySource;
 
 import java.util.Properties;
 
@@ -15,7 +16,11 @@ public final class NodeFactory {
     }
 
     public static Node createNode(Properties properties) {
-        ApplicationContext context = new AnnotationConfigApplicationContext(NodeConfiguration.class);
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+        context.register(NodeConfiguration.class);
+        MutablePropertySources propertySources = context.getEnvironment().getPropertySources();
+        propertySources.addFirst(new PropertiesPropertySource("node", properties));
+        context.refresh();
         return new Node(context);
     }
 }

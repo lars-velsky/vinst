@@ -52,6 +52,16 @@ public class CoreConfiguration {
 
     @Bean
     public AccountCreateRequestKeyProvider accountCreateRequestKeyProvider() {
-        return new AccountCreateRequestKeyProvider();
+        return new AccountCreateRequestKeyProvider(randomKeyProvider());
+    }
+
+    @Bean
+    public AccountCountRequestKeyProvider accountCountRequestKeyProvider() {
+        return new AccountCountRequestKeyProvider(randomKeyProvider());
+    }
+
+    @Bean
+    public RandomKeyProvider randomKeyProvider() {
+        return new RandomKeyProvider();
     }
 }
