@@ -3,9 +3,7 @@ package org.vinst.core.cluster;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
 import com.hazelcast.nio.serialization.StreamSerializer;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.vinst.core.Request;
 import org.vinst.core.RequestTaskSerializer;
 
@@ -15,9 +13,9 @@ import java.io.IOException;
  * @author Sergey Mischenko
  * @since 25.04.2015
  */
-public class ClusterRequestTaskSerializer implements StreamSerializer<ClusterRequestTask>, ApplicationContextAware {
+public final class ClusterRequestTaskSerializer implements StreamSerializer<ClusterRequestTask> {
 
-    private volatile ApplicationContext context;
+    private RequestService requestService;
 
     @Override
     public void write(ObjectDataOutput out, ClusterRequestTask requestTask) throws IOException {
@@ -27,7 +25,6 @@ public class ClusterRequestTaskSerializer implements StreamSerializer<ClusterReq
     @Override
     public ClusterRequestTask read(ObjectDataInput in) throws IOException {
         Request<?> request = in.readObject();
-        RequestService requestService = context.getBean(RequestService.class);
         return new ClusterRequestTask<>(requestService, request);
     }
 
@@ -41,8 +38,8 @@ public class ClusterRequestTaskSerializer implements StreamSerializer<ClusterReq
 
     }
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.context = applicationContext;
+    @Autowired
+    public void setRequestService(RequestService requestService) {
+        this.requestService = requestService;
     }
 }
