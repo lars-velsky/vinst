@@ -6,12 +6,6 @@ package org.vinst.core;
  */
 public class AccountCountRequestKeyProvider implements RequestKeyProvider<AccountCountRequest> {
 
-    private final RandomKeyProvider randomKeyProvider;
-
-    public AccountCountRequestKeyProvider(RandomKeyProvider randomKeyProvider) {
-        this.randomKeyProvider = randomKeyProvider;
-    }
-
     @Override
     public Class<AccountCountRequest> getRequestClass() {
         return AccountCountRequest.class;
@@ -19,6 +13,6 @@ public class AccountCountRequestKeyProvider implements RequestKeyProvider<Accoun
 
     @Override
     public Object getKey() {
-        return randomKeyProvider.getKey();
+        return null;
     }
 }

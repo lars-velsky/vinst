@@ -23,16 +23,30 @@ public class RemoteRequestProcessor {
     public <REQ extends Request<RESP>, RESP extends Response> void process(REQ request, Callback<RESP> callback, Executor executor) {
         Object key = requestKeyResolver.getKey(request);
         Callable<RESP> task = new ClientRequestTask<>(request);
-        requestExecutorService.submitToKeyOwner(task, key, new ExecutionCallback<RESP>() {
-            @Override
-            public void onResponse(RESP response) {
-                executor.execute(() -> callback.response(response));
-            }
+        if (key != null) {
+            requestExecutorService.submitToKeyOwner(task, key, new ExecutionCallback<RESP>() {
+                @Override
+                public void onResponse(RESP response) {
+                    executor.execute(() -> callback.response(response));
+                }
 
-            @Override
-            public void onFailure(Throwable throwable) {
-                executor.execute(() -> callback.error(throwable));
-            }
-        });
+                @Override
+                public void onFailure(Throwable throwable) {
+                    executor.execute(() -> callback.error(throwable));
+                }
+            });
+        } else {
+            requestExecutorService.submit(task, new ExecutionCallback<RESP>() {
+                @Override
+                public void onResponse(RESP response) {
+                    executor.execute(() -> callback.response(response));
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    executor.execute(() -> callback.error(throwable));
+                }
+            });
+        }
     }
 }

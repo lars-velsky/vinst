@@ -25,7 +25,7 @@ public final class ClusterRequestTaskSerializer implements StreamSerializer<Clus
     @Override
     public ClusterRequestTask read(ObjectDataInput in) throws IOException {
         Request<?> request = in.readObject();
-        return new ClusterRequestTask<>(requestService, request);
+        return new ClusterRequestTask(requestService, request);
     }
 
     @Override

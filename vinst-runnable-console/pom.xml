@@ -12,7 +12,7 @@
         <version>DEVELOP</version>
     </parent>
 
-    <artifactId>vinst-runnable-node</artifactId>
+    <artifactId>vinst-runnable-console</artifactId>
     <packaging>pom</packaging>
 
     <build>
@@ -23,11 +23,11 @@
                 <configuration>
                     <executable>java</executable>
                     <arguments>
-                        <argument>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</argument>
+                        <argument>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5006</argument>
+                        <argument>-Djline.terminal=jline.AnsiWindowsTerminal</argument>
                         <argument>-classpath</argument>
                         <classpath/>
-                        <argument>org.vinst.core.cluster.NodeLauncher</argument>
-                        <argument>node.properties</argument>
+                        <argument>org.springframework.shell.Bootstrap</argument>
                     </arguments>
                 </configuration>
             </plugin>
@@ -37,7 +37,11 @@
     <dependencies>
         <dependency>
             <groupId>org.vinst</groupId>
-            <artifactId>vinst-core-cluster</artifactId>
+            <artifactId>vinst-console</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
         </dependency>
     </dependencies>
 
