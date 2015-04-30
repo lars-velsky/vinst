@@ -1,9 +1,5 @@
 package org.vinst.core.cluster;
 
-import com.hazelcast.config.Config;
-import com.hazelcast.config.SerializerConfig;
-import com.hazelcast.core.Hazelcast;
-import com.hazelcast.core.HazelcastInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,20 +28,8 @@ public class NodeConfiguration {
     public Collection<RequestProcessor> requestProcessors;
 
     @Bean
-    public HazelcastInstance hazelcast() {
-        Config config = new Config();
-
-        SerializerConfig serializerConfig = new SerializerConfig();
-        serializerConfig.setImplementation(clusterRequestTaskSerializer());
-        serializerConfig.setTypeClass(ClusterRequestTask.class);
-        config.getSerializationConfig().addSerializerConfig(serializerConfig);
-
-        return Hazelcast.newHazelcastInstance(config);
-    }
-
-    @Bean
-    public ClusterRequestTaskSerializer clusterRequestTaskSerializer() {
-        return new ClusterRequestTaskSerializer();
+    public HazelcastService hazelcastService() {
+        return new HazelcastService();
     }
 
     @Bean

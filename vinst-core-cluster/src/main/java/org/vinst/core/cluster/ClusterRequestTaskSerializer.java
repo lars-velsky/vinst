@@ -3,7 +3,6 @@ package org.vinst.core.cluster;
 import com.hazelcast.nio.ObjectDataInput;
 import com.hazelcast.nio.ObjectDataOutput;
 import com.hazelcast.nio.serialization.StreamSerializer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.vinst.core.Request;
 import org.vinst.core.RequestTaskSerializer;
 
@@ -15,7 +14,11 @@ import java.io.IOException;
  */
 public final class ClusterRequestTaskSerializer implements StreamSerializer<ClusterRequestTask> {
 
-    private RequestService requestService;
+    private final RequestService requestService;
+
+    public ClusterRequestTaskSerializer(RequestService requestService) {
+        this.requestService = requestService;
+    }
 
     @Override
     public void write(ObjectDataOutput out, ClusterRequestTask requestTask) throws IOException {
@@ -36,10 +39,5 @@ public final class ClusterRequestTaskSerializer implements StreamSerializer<Clus
     @Override
     public void destroy() {
 
-    }
-
-    @Autowired
-    public void setRequestService(RequestService requestService) {
-        this.requestService = requestService;
     }
 }
