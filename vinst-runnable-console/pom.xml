@@ -23,7 +23,7 @@
                 <configuration>
                     <executable>java</executable>
                     <arguments>
-                        <argument>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5006</argument>
+                        <!--<argument>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5006</argument>-->
                         <argument>-Djline.terminal=jline.AnsiWindowsTerminal</argument>
                         <argument>-classpath</argument>
                         <classpath/>

@@ -23,7 +23,7 @@
                 <configuration>
                     <executable>java</executable>
                     <arguments>
-                        <argument>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</argument>
+                        <!--<argument>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</argument>-->
                         <argument>-classpath</argument>
                         <classpath/>
                         <argument>org.vinst.core.cluster.NodeLauncher</argument>
