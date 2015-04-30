@@ -33,8 +33,8 @@ public class NodeConfiguration {
     }
 
     @Bean
-    public RequestService requestService() {
-        return new RequestServiceImpl(requestProcessors);
+    public RequestProcessingService requestProcessingService() {
+        return new RequestProcessingServiceImpl(requestProcessors);
     }
 
     @Bean

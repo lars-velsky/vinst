@@ -39,7 +39,7 @@ public class CoreConfiguration {
 
         SerializerConfig serializerConfig = new SerializerConfig();
         serializerConfig.setImplementation(new ClientRequestTaskSerializer());
-        serializerConfig.setTypeClass(ClientRequestTask.class);
+        serializerConfig.setTypeClass(ClientRequestProcessingTask.class);
         clientConfig.getSerializationConfig().addSerializerConfig(serializerConfig);
 
         return HazelcastClient.newHazelcastClient(clientConfig);

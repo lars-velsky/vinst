@@ -12,20 +12,20 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class HazelcastService {
 
-    private RequestService requestService;
+    private RequestProcessingService requestProcessingService;
     private volatile HazelcastInstance hazelcast;
 
     @Autowired
-    public void setRequestService(RequestService requestService) {
-        this.requestService = requestService;
+    public void setRequestProcessingService(RequestProcessingService requestProcessingService) {
+        this.requestProcessingService = requestProcessingService;
     }
 
     public void start() {
         Config config = new Config();
 
         SerializerConfig serializerConfig = new SerializerConfig();
-        serializerConfig.setImplementation(new ClusterRequestTaskSerializer(requestService));
-        serializerConfig.setTypeClass(ClusterRequestTask.class);
+        serializerConfig.setImplementation(new ClusterRequestProcessingTaskSerializer(requestProcessingService));
+        serializerConfig.setTypeClass(ClusterRequestProcessingTask.class);
         config.getSerializationConfig().addSerializerConfig(serializerConfig);
 
         this.hazelcast = Hazelcast.newHazelcastInstance(config);

@@ -10,14 +10,14 @@ import java.io.IOException;
  * @author Sergey Mischenko
  * @since 25.04.2015
  */
-public class ClientRequestTaskSerializer implements StreamSerializer<ClientRequestTask> {
+public class ClientRequestTaskSerializer implements StreamSerializer<ClientRequestProcessingTask> {
     @Override
-    public void write(ObjectDataOutput out, ClientRequestTask requestTask) throws IOException {
+    public void write(ObjectDataOutput out, ClientRequestProcessingTask requestTask) throws IOException {
         out.writeObject(requestTask.getRequest());
     }
 
     @Override
-    public ClientRequestTask read(ObjectDataInput in) throws IOException {
+    public ClientRequestProcessingTask read(ObjectDataInput in) throws IOException {
         throw new AssertionError("Method call() of ClientRequestTaskSerializer must never be invoked");
     }
 
