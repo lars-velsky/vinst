@@ -1,8 +1,5 @@
 package org.vinst.core;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
 import java.util.Properties;
 
 /**
@@ -15,7 +12,6 @@ public final class CoreFactory {
     }
 
     public static Core createCore(Properties properties) {
-        ApplicationContext context = new AnnotationConfigApplicationContext(CoreConfiguration.class);
-        return new CoreImpl(context);
+        return new CoreImpl(properties);
     }
 }

@@ -1,7 +1,9 @@
 package org.vinst.core;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.util.Properties;
 import java.util.concurrent.Executor;
 
 /**
@@ -12,8 +14,8 @@ public final class CoreImpl implements Core {
 
     private final ApplicationContext context;
 
-    public CoreImpl(ApplicationContext context) {
-        this.context = context;
+    public CoreImpl(Properties properties) {
+        this.context = new AnnotationConfigApplicationContext(CoreConfiguration.class);
     }
 
     @Override
