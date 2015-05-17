@@ -17,6 +17,7 @@
         <module>vinst-core-common</module>
         <module>vinst-core-smoke-test</module>
         <module>vinst-console</module>
+        <module>vinst-terminal</module>
         <module>vinst-runnable-node</module>
         <module>vinst-runnable-console</module>
     </modules>
