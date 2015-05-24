@@ -23,4 +23,10 @@ public final class CoreImpl implements Core {
         RemoteRequestProcessor requestProcessor = context.getBean(RemoteRequestProcessor.class);
         requestProcessor.process(request, callback, executor);
     }
+
+    @Override
+    public Subscription subscribe(SubscriptionManager manager, Executor executor) {
+        // TODO
+        throw new UnsupportedOperationException();
+    }
 }

@@ -11,4 +11,6 @@ import java.util.concurrent.Executor;
 public interface Core {
 
     <REQ extends Request<RESP>, RESP extends Response> void process(REQ request, Callback<RESP> callback, Executor executor);
+
+    Subscription subscribe(SubscriptionManager manager, Executor executor);
 }
